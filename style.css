@@ -588,3 +588,47 @@ footer {
     color: #000;
     text-decoration-color: #000;
 }
+
+/* ===================================================
+   記事・本文内の画像レスポンシブ対応
+=================================================== */
+
+/* 記事（article）やメインコンテンツ内の画像は枠幅を超えない */
+article img,
+main img {
+    max-width: 100%;       /* 親要素（記事の幅）より大きく広がらない */
+    height: auto;          /* 縦横比（アスペクト比）を崩さずに自動調整 */
+    display: block;        /* 画像下の微小な隙間を解消 */
+    margin: 2rem auto;     /* 上下に余白を取り、左右中央揃えにする */
+    border-radius: 2px;    /* 控えめに角を丸める（お好みで 0 でもOK） */
+}
+
+/* figureタグ（キャプション付き）を使う場合の設定 */
+article figure {
+    margin: 2.5rem 0;
+    text-align: center;
+}
+
+article figure img {
+    margin: 0 auto;        /* figure内では figure 側のマージンを使う */
+}
+
+/* キャプション（説明文）のスタイル */
+article figcaption {
+    font-size: 0.85rem;
+    color: #666;           /* 少し控えめなグレー */
+    margin-top: 0.6rem;
+    line-height: 1.5;
+}
+
+/* イタリック記法（*注釈*）を写真直下に書いた場合の補助スタイル */
+article img + em,
+article img + p > em {
+    display: block;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: -1.2rem;
+    margin-bottom: 2rem;
+    font-style: normal;    /* 日本語フォントで見やすいよう斜体を解除して控えめに */
+}
