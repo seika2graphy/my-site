@@ -13,6 +13,7 @@ TEMPLATES_DIR = BASE_DIR / "templates"
 NEWS_DIR = BASE_DIR / "news"
 PAGES_DIR = BASE_DIR / "pages"
 DIST_DIR = BASE_DIR / "dist"
+SITE_TITLE = "生活の写真"
 
 SITE_CONFIG = {
     "site_title": "生活の写真",
@@ -146,7 +147,7 @@ def build():
         hero_photos=hero_photos,
         articles=articles[:5]  # ★最新5件に絞る（件数はお好みで変更OK）
     )
-    (dist_dir / "index.html").write_text(index_html, encoding="utf-8")
+    (DIST_DIR / "index.html").write_text(index_html, encoding="utf-8")
 
     # 固定ページ（gallery のみ gallery.html）
     page_template = env.get_template("page.html")
