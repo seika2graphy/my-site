@@ -43,10 +43,17 @@ header {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto 3rem;
+    padding: 0;
+    overflow: hidden;         /* ★枠外への不要なハミ出しを強制カット */
+    background: transparent;  /* ★背景を透明にしてグレー帯を消す */
 }
 
 .hero-container {
     width: 100%;
+    max-width: 960px;         /* サイトの最大幅に合わせて調整 */
+    margin: 0 auto;
+    position: relative;
+    background: transparent;  /* ★グレーの背景色指定があれば transparent に変更 */
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background-color: #f2f2f2;
@@ -59,7 +66,7 @@ header {
     object-fit: cover;
     display: block;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out;
+    transition: opacity 0.3s ease;
 }
 
 #hero-image.loaded {
