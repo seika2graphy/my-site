@@ -632,3 +632,63 @@ article img + p > em {
     margin-bottom: 2rem;
     font-style: normal;    /* 日本語フォントで見やすいよう斜体を解除して控えめに */
 }
+
+/* ===================================================
+   スマートフォン表示の最適化（画面幅768px以下）
+=================================================== */
+@media (max-width: 768px) {
+    /* 1. ヘッダーとメニューのスマート化 */
+    header {
+        padding: 1.5rem 1rem;
+        text-align: center;
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.8rem;              /* メニュー間の余白をギュッと締める */
+        padding: 0;
+        margin: 1rem 0 0;
+        list-style: none;
+        flex-wrap: nowrap;        /* ★絶対に2行に折り返さない */
+    }
+
+    nav ul li a {
+        font-size: 0.8rem;        /* スマホ向けに文字サイズを少し控えめに */
+        letter-spacing: 0.05em;   /* 文字間を調整してすっきり見せる */
+        white-space: nowrap;      /* 単語の途中での改行を防止 */
+    }
+
+    /* 2. TOP画面のお知らせ（News）項目のセンタリング・バランス調整 */
+    .news-section,
+    section.news {
+        padding: 0 1.2rem;
+        margin: 2.5rem auto;
+        max-width: 500px;         /* 横に広がりすぎず締まった印象に */
+    }
+
+    .news-list {
+        padding: 0;
+        list-style: none;
+    }
+
+    .news-item {
+        display: flex;
+        flex-direction: column;   /* スマホでは「日付」と「タイトル」を縦積みに */
+        align-items: center;      /* ★中央揃えにしてバランスを取る */
+        text-align: center;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .news-date {
+        font-size: 0.75rem;
+        color: #888;
+        margin-bottom: 0.2rem;
+    }
+
+    .news-title {
+        font-size: 0.9rem;
+    }
+}
