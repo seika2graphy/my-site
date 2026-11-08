@@ -360,8 +360,8 @@ footer {
 
     /* お知らせセクション */
     .news-section {
-        padding: 2.5rem 1.2rem 1rem;  /* ★一番左の 2.5rem で上枠線から文字を離す */
-        margin: 2rem auto 1rem;
+        padding: 1.2rem 1.2rem 1rem;  /* ★一番左の 2.5rem で上枠線から文字を離す */
+        margin: 1.5rem auto 1rem;
         max-width: 100%;
         box-sizing: border-box;
     }
@@ -375,9 +375,9 @@ footer {
         color: #666;
 
         /* ★ここがポイント：線との距離をしっかり確保する */
-        margin-top: 3rem;         /* 上の線（またはメニュー）からグッと離す */
-        padding-top: 2rem;        /* 見出し自身に線がある場合の間隔 */
-        margin-bottom: 1.5rem;    /* 下のリストとの間隔 */
+        margin-top: 1.2rem;         /* 上の線（またはメニュー）からグッと離す */
+        padding-top: 0.8rem;        /* 見出し自身に線がある場合の間隔 */
+        margin-bottom: 1.2rem;    /* 下のリストとの間隔 */
     }
 
     .news-list {
