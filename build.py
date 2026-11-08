@@ -80,15 +80,18 @@ def build():
 
     # 1. TOP画像コピー
     dist_hero = DIST_DIR / "hero_photos"
-    if dist_hero.exists():
-        shutil.rmtree(dist_hero)
-    shutil.copytree(HERO_PHOTOS_DIR, dist_hero)
+    # dist_hero を安全に作成（消さずに保持）
+    dist_hero.mkdir(parents=True, exist_ok=True)
+    if HERO_PHOTOS_DIR.exists():  # ※定義されている元の hero フォルダ変数名
+        shutil.copytree(HERO_PHOTOS_DIR, dist_hero, dirs_exist_ok=True)
+    shutil.copytree(HERO_PHOTOS_DIR, dist_hero, dirs_exist_ok=True)
     hero_photos = [f.name for f in HERO_PHOTOS_DIR.iterdir() if f.suffix.lower() in valid_extensions]
 
     # 2. ギャラリー画像（向き補正して書き出し）
     dist_gallery = DIST_DIR / "gallery_photos"
-    if dist_gallery.exists():
-        shutil.rmtree(dist_gallery)
+    dist_gallery.mkdir(parents=True, exist_ok=True)
+    if GALLERY_PHOTOS_DIR.exists():  # ※定義されている元の gallery フォルダ変数名
+        shutil.copytree(GALLERY_PHOTOS_DIR, dist_gallery, dirs_exist_ok=True)
     dist_gallery.mkdir(exist_ok=True)
 
     gallery_photos = []
