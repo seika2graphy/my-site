@@ -207,8 +207,9 @@ header {
 .news-section h2 {
     font-size: 0.95rem;
     font-weight: 400;
+    padding-top: 2rem;              /* ★線と「お知らせ」文字の間隔をしっかり開ける（約32px） */
     letter-spacing: 0.25em;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: #666;
 }
 
@@ -359,14 +360,24 @@ footer {
 
     /* お知らせセクション */
     .news-section {
-        margin-top: 2.5rem;
-        padding-top: 2rem;
-        width: 100%;
+        padding: 2.5rem 1.2rem 1rem;  /* ★一番左の 2.5rem で上枠線から文字を離す */
+        margin: 2rem auto 1rem;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
+/* スマホ表示内の見出し調整 */
     .news-section h2 {
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 0.95rem;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        color: #666;
+
+        /* ★ここがポイント：線との距離をしっかり確保する */
+        margin-top: 3rem;         /* 上の線（またはメニュー）からグッと離す */
+        padding-top: 2rem;        /* 見出し自身に線がある場合の間隔 */
+        margin-bottom: 1.5rem;    /* 下のリストとの間隔 */
     }
 
     .news-list {
