@@ -39,30 +39,29 @@ header {
 
 /* 16:9 メイン画像枠 */
 .hero-wrapper {
-    /* 画面幅に合わせて伸縮：最大1000px、画面が狭いときは幅100%に追従 */
     width: 100%;
-    max-width: 1000px;
+    max-width: 960px;         /* 幅を統一 */
     margin: 0 auto 3rem;
     padding: 0;
-    overflow: hidden;         /* ★枠外への不要なハミ出しを強制カット */
-    background: transparent;  /* ★背景を透明にしてグレー帯を消す */
 }
 
 .hero-container {
     width: 100%;
-    max-width: 960px;         /* サイトの最大幅に合わせて調整 */
-    margin: 0 auto;
     position: relative;
-    background: transparent;  /* ★グレーの背景色指定があれば transparent に変更 */
     aspect-ratio: 16 / 9;
-    overflow: hidden;
-    /* background-color: #f2f2f2; */
-    border-radius: 2px;
+    overflow: hidden;         /* ★わずかにはみ出させた画像を綺麗にクリップ */
+    line-height: 0;           /* インライン隙間を徹底排除 */
+    font-size: 0;
+    /* border-radius は写真サイトのキリッとした佇まいにも合うよう一旦ナシにするのが無難 */
 }
 
 #hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    /* ★ポイント：高さをわずかに大きくして、小数点の計算隙間を完全に塗りつぶす */
+    height: 101%;
     object-fit: cover;
     display: block;
     opacity: 0;
