@@ -7,6 +7,9 @@
 
     <!-- SEO & OGP 設定 -->
     <meta name="description" content="{{ page.body | striptags | truncate(110) }}">
+    <!-- ファビコン設定 -->
+    <link rel="icon" href="/images/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <link rel="canonical" href="https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html">
 
     <!-- Facebook, LINE, 各種アプリ共通 -->
