@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ギャラリー - 生活の写真</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <header>
+        <h1 class="site-logo">
+            <a href="../index.html">
+                <img src="../images/logo.png" alt="生活の写真">
+            </a>
+        </h1>
+    </header>
+
+    <main class="gallery-page">
+        <header class="page-header">
+            <h1>ギャラリー</h1>
+        </header>
+
+        
+
+        <!-- 写真グリッド（右クリック・ドラッグ禁止を設定） -->
+        <div class="photo-grid">
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0001.JPG" 
+                    alt="0001" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0002.JPG" 
+                    alt="0002" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0003.JPG" 
+                    alt="0003" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0004.jpg" 
+                    alt="0004" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0005.jpg" 
+                    alt="0005" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0006.jpg" 
+                    alt="0006" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0007.jpg" 
+                    alt="0007" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+            <div class="photo-item">
+                <img 
+                    src="../gallery_photos/0008.jpg" 
+                    alt="0008" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+            
+        </div>
+
+        <div class="article-footer-nav">
+            <a href="../index.html" class="back-link">&larr; Homeへ戻る</a>
+        </div>
+    </main>
+
+    <!-- 拡大表示用モーダル（ライトボックス） -->
+    <div id="lightbox-modal" class="lightbox" onclick="closeLightbox(event)">
+        <button type="button" class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+        <div class="lightbox-content">
+            <img 
+                id="lightbox-img" 
+                src="" 
+                alt="Enlarged Photo"
+                class="protect-img"
+                oncontextmenu="return false;"
+                ondragstart="return false;"
+            >
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 生活の写真</p>
+    </footer>
+
+    <!-- ライトボックス制御スクリプト -->
+    <script>
+        const modal = document.getElementById('lightbox-modal');
+        const modalImg = document.getElementById('lightbox-img');
+        const photoItems = document.querySelectorAll('.photo-item'); // 枠全体を対象に
+
+        photoItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                if (img) {
+                    modalImg.src = img.src;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        function closeLightbox(e) {
+            // 透明板や画像エリアの内側をクリックした時は閉じず、外側の背景や×ボタンで閉じる
+            if (e.target.closest('.lightbox-content')) return;
+            modal.classList.remove('active');
+            modalImg.src = '';
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                modalImg.src = '';
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

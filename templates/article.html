@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }} - {{ site_title }}</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- トップと同じロゴヘッダー -->
+    <header>
+        <h1 class="site-logo">
+            <a href="../index.html">
+                <img src="../images/logo.png" alt="{{ site_title }}">
+            </a>
+        </h1>
+    </header>
+
+    <main class="news-single">
+        <header class="article-header">
+            <time datetime="{{ article.date }}">{{ article.date }}</time>
+            <h1>{{ article.title }}</h1>
+        </header>
+
+        {% if article.image %}
+        <div class="article-hero">
+            <img src="../images/{{ article.image }}" alt="{{ article.title }}">
+        </div>
+        {% endif %}
+
+        <div class="article-body">
+            {{ article.body | safe }}
+        </div>
+
+        <!-- 記事下部に自然に戻れるリンクを配置 -->
+        <div class="article-footer-nav">
+            <a href="../index.html" class="back-link">&larr; お知らせ一覧へ戻る</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; {{ site_title }}</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site_title }}</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1 class="site-logo">
+            <a href="index.html">
+                <img src="images/logo.png" alt="{{ site_title }}">
+            </a>
+        </h1>
+    </header>
+
+    <main>
+        <!-- 16:9のメイン画像枠 -->
+        <div class="hero-wrapper">
+            <div class="hero-container">
+                <img id="hero-image" alt="Featured Photo">
+            </div>
+        </div>
+
+        <!-- ★追加: 画像下のナビゲーションメニュー -->
+        <nav class="top-nav-section">
+            <ul class="top-nav-list">
+                <li><a href="pages/about.html">アトリエについて</a></li>
+                <li><a href="pages/gallery.html">ギャラリー</a></li>
+                <li><a href="https://www.creema.jp/c/seika2graphy" target="_blank" rel="noopener noreferrer">ウェブショップ</a></li>
+                <li><a href="pages/contact.html">お問合せ</a></li>
+            </ul>
+        </nav>
+
+        <!-- お知らせセクション -->
+        {% if articles %}
+        <section class="news-section">
+            <h2>お知らせ</h2>
+            <ul class="news-list">
+                {% for art in articles %}
+                <li>
+                    <a href="news/{{ art.slug }}.html">
+                        <time>{{ art.date }}</time>
+                        <span>{{ art.title }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; {{ site_title }}</p>
+    </footer>
+
+    <!-- 写真をランダム選択する小さなスクリプト -->
+    <script>
+        const heroPhotos = {{ hero_photos | tojson }};
+
+        if (heroPhotos && heroPhotos.length > 0) {
+            const randomPhoto = heroPhotos[Math.floor(Math.random() * heroPhotos.length)];
+            const imgElement = document.getElementById('hero-image');
+
+            imgElement.src = 'hero_photos/' + randomPhoto;
+            
+            imgElement.onload = () => {
+                imgElement.classList.add('loaded');
+            };
+        }
+    </script>
+</body>
+</html>
