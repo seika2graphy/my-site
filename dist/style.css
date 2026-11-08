@@ -56,7 +56,7 @@ header {
     background: transparent;  /* ★グレーの背景色指定があれば transparent に変更 */
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
     border-radius: 2px;
 }
 
