@@ -637,58 +637,74 @@ article img + p > em {
    スマートフォン表示の最適化（画面幅768px以下）
 =================================================== */
 @media (max-width: 768px) {
-    /* 1. ヘッダーとメニューのスマート化 */
-    header {
-        padding: 1.5rem 1rem;
-        text-align: center;
+    /* 1. ナビゲーションメニューを1行に収める */
+    .top-nav-section {
+        margin: 1.5rem auto;
+        padding: 0 0.5rem;
     }
 
-    nav ul {
+    .top-nav-list {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 0.8rem;              /* メニュー間の余白をギュッと締める */
+        gap: 0.6rem;              /* リンク同士の隙間をスマホ向けに少し詰める */
         padding: 0;
-        margin: 1rem 0 0;
+        margin: 0;
         list-style: none;
         flex-wrap: nowrap;        /* ★絶対に2行に折り返さない */
     }
 
-    nav ul li a {
-        font-size: 0.8rem;        /* スマホ向けに文字サイズを少し控えめに */
-        letter-spacing: 0.05em;   /* 文字間を調整してすっきり見せる */
-        white-space: nowrap;      /* 単語の途中での改行を防止 */
+    .top-nav-list li a {
+        font-size: 0.78rem;       /* 4項目が綺麗に1行に並ぶ文字サイズ */
+        letter-spacing: 0.02em;
+        white-space: nowrap;      /* 「アトリエについて」等の途中で改行させない */
+        padding: 0.2rem 0;
     }
 
-    /* 2. TOP画面のお知らせ（News）項目のセンタリング・バランス調整 */
-    .news-section,
-    section.news {
+    /* 2. お知らせセクションのバランス調整 */
+    .news-section {
+        margin: 2.5rem auto 1rem;
         padding: 0 1.2rem;
-        margin: 2.5rem auto;
-        max-width: 500px;         /* 横に広がりすぎず締まった印象に */
+        max-width: 420px;         /* スマホで間延びしない上品な幅に制限 */
+        box-sizing: border-box;
+    }
+
+    .news-section h2 {
+        text-align: center;       /* 「お知らせ」の見出しを中央に */
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.05em;
     }
 
     .news-list {
-        padding: 0;
         list-style: none;
+        padding: 0;
+        margin: 0 auto;
     }
 
-    .news-item {
-        display: flex;
-        flex-direction: column;   /* スマホでは「日付」と「タイトル」を縦積みに */
-        align-items: center;      /* ★中央揃えにしてバランスを取る */
-        text-align: center;
+    .news-list li {
+        border-bottom: 1px solid #eee;
         padding: 0.8rem 0;
-        border-bottom: 1px solid #f0f0f0;
     }
 
-    .news-date {
+    .news-list li a {
+        display: flex;
+        flex-direction: column;   /* 日付とタイトルを縦2段に積む */
+        align-items: center;      /* ★中央揃えにして左詰め感を解消 */
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        gap: 0.3rem;
+    }
+
+    .news-list li a time {
         font-size: 0.75rem;
         color: #888;
-        margin-bottom: 0.2rem;
+        letter-spacing: 0.05em;
     }
 
-    .news-title {
-        font-size: 0.9rem;
+    .news-list li a span {
+        font-size: 0.88rem;
+        line-height: 1.5;
     }
 }
