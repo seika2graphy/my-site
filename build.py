@@ -124,6 +124,29 @@ def build():
         (NEWS_DIST_DIR / f"{art['slug']}.html").write_text(
             article_template.render(**SITE_CONFIG, article=art), encoding="utf-8"
         )
+    
+    # 記事を日付の降順（新しい順）で並び替え
+    articles.sort(key=lambda x: x["date"], reverse=True)
+
+    # 1. アーカイブ一覧ページ（/news/ または /news/index.html）を生成
+    news_list_template = env.get_template("news_list.html")
+    news_dir = dist_dir / "news"
+    news_dir.mkdir(parents=True, exist_ok=True)
+    
+    news_list_html = news_list_template.render(
+        site_title=SITE_TITLE,
+        articles=articles  # 全件を渡す
+    )
+    (news_dir / "index.html").write_text(news_list_html, encoding="utf-8")
+
+    # 2. トップページ用には最新5件だけを渡す（スライス）
+    index_template = env.get_template("index.html")
+    index_html = index_template.render(
+        site_title=SITE_TITLE,
+        hero_photos=hero_photos,
+        articles=articles[:5]  # ★最新5件に絞る（件数はお好みで変更OK）
+    )
+    (dist_dir / "index.html").write_text(index_html, encoding="utf-8")
 
     # 固定ページ（gallery のみ gallery.html）
     page_template = env.get_template("page.html")

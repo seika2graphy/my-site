@@ -725,3 +725,36 @@ article img + p > em {
         line-height: 1.5;
     }
 }
+
+/* 過去のお知らせ一覧リンク（トップ画面） */
+.more-news-link {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.more-news-link a {
+    font-size: 0.82rem;
+    color: #777;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.more-news-link a:hover {
+    color: #333;
+    border-color: #333;
+}
+
+/* 一覧ページ用の戻るリンク */
+.back-to-home {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.back-to-home a {
+    font-size: 0.85rem;
+    color: #888;
+    text-decoration: none;
+}
