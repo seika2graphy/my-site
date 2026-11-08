@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - {{ site_title }}</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>{{ page.title }} | 生活の写真</title>
+
+    <!-- SEO & OGP 設定 -->
+    <meta name="description" content="{{ page.body | striptags | truncate(110) }}">
+    <link rel="canonical" href="https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html">
+
+    <!-- Facebook, LINE, 各種アプリ共通 -->
+    <meta property="og:site_name" content="生活の写真">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ page.title }} | 生活の写真">
+    <meta property="og:description" content="{{ page.body | striptags | truncate(110) }}">
+    <meta property="og:url" content="https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html">
+
+    <!-- 個別写真の指定があればその写真、なければ共通の看板写真 -->
+    {% if page.image %}
+    <meta property="og:image" content="https://seika2graphy.life/images/{{ page.image }}">
+    {% else %}
+    <meta property="og:image" content="https://seika2graphy.life/images/ogp-default.jpg">
+    {% endif %}
+
+    <!-- X (Twitter) カード設定 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title }} | 生活の写真">
+    <meta name="twitter:description" content="{{ page.body | striptags | truncate(110) }}">
+    {% if page.image %}
+    <meta name="twitter:image" content="https://seika2graphy.life/images/{{ page.image }}">
+    {% else %}
+    <meta name="twitter:image" content="https://seika2graphy.life/images/ogp-default.jpg">
+    {% endif %}
+
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
