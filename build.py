@@ -130,7 +130,7 @@ def build():
 
     # 1. アーカイブ一覧ページ（/news/ または /news/index.html）を生成
     news_list_template = env.get_template("news_list.html")
-    news_dir = dist_dir / "news"
+    news_dir = DIST_DIR / "news"
     news_dir.mkdir(parents=True, exist_ok=True)
     
     news_list_html = news_list_template.render(
