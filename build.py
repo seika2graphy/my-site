@@ -103,9 +103,9 @@ def build():
 
     # 3. その他画像（ロゴなど）コピー
     dist_images = DIST_DIR / "images"
-    if dist_images.exists():
-        shutil.rmtree(dist_images)
-    shutil.copytree(IMAGES_DIR, dist_images)
+    dist_images.mkdir(parents=True, exist_ok=True)
+    if IMAGES_DIR.exists():
+        shutil.copytree(IMAGES_DIR, dist_images, dirs_exist_ok=True)
 
     # 4. 記事・固定ページの読み込み
     articles = [parse_markdown(f) for f in NEWS_DIR.glob("*.md")]
