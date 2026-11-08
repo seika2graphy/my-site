@@ -758,3 +758,120 @@ article img + p > em {
     color: #888;
     text-decoration: none;
 }
+
+/* ===================================================
+   お知らせアーカイブ一覧ページ（/news/）の統一スタイル
+=================================================== */
+
+/* 1. ページ全体の枠幅とセンタリング（他ページと共通の余白感） */
+.news-archive-section {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    text-align: center;       /* 全体の中央揃え基調を維持 */
+}
+
+/* 2. ページ見出し（PC・スマホ共通） */
+.news-archive-section .page-title {
+    font-size: 1.1rem;
+    font-weight: 400;         /* 他のページと合わせて太字を控えめに */
+    letter-spacing: 0.2em;
+    color: #444;
+    margin-bottom: 2.5rem;
+    text-align: center;       /* ★タイトルを確実に中央揃え */
+}
+
+/* 3. お知らせ一覧リスト（PCでも左に寄らず中央配置） */
+.archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 560px;         /* リスト幅を程よく絞って中央に置く */
+}
+
+.archive-list li {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+}
+
+.archive-list li a {
+    display: flex;
+    justify-content: center;  /* 日付とタイトルを中央寄せ */
+    align-items: baseline;
+    gap: 1.2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+}
+
+.archive-list li a:hover {
+    opacity: 0.6;
+}
+
+.archive-list li a time {
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.archive-list li a span {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 4. 「トップへ戻る」リンク */
+.back-to-home {
+    margin-top: 3.5rem;
+    text-align: center;
+}
+
+.back-to-home a {
+    font-size: 0.82rem;
+    color: #777;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 2px;
+}
+
+.back-to-home a:hover {
+    color: #333;
+    border-color: #333;
+}
+
+/* ===================================================
+   スマホ表示（768px以下）での最適化
+=================================================== */
+@media (max-width: 768px) {
+    .news-archive-section {
+        margin: 2rem auto;
+        padding: 0 1.2rem;
+    }
+
+    .news-archive-section .page-title {
+        font-size: 0.95rem;
+        font-weight: 400;     /* ★スマホでも太字にならないよう固定 */
+        text-align: center;   /* ★スマホでも中央揃え */
+        letter-spacing: 0.2em;
+        margin-bottom: 2rem;
+    }
+
+    /* スマホでは日付とタイトルを縦積みにして中央揃え */
+    .archive-list li a {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        text-align: center;
+    }
+
+    .archive-list li a time {
+        font-size: 0.75rem;
+    }
+
+    .archive-list li a span {
+        font-size: 0.88rem;
+    }
+}
