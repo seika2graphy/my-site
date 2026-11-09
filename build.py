@@ -268,15 +268,15 @@ def build():
                 webp_name = convert_hero_image(f, dist_hero)
                 hero_photos.append(webp_name)
 
-    # 2. ギャラリー画像（写真 ＆ 藍 の仕分け）
+# 2. ギャラリー画像（写真 ＆ 藍 の仕分け ＋ 新しい順に並び替え）
     dist_gallery = DIST_DIR / "gallery_photos"
     dist_gallery.mkdir(parents=True, exist_ok=True)
     gallery_photos = []
     gallery_indigo = []
 
     if GALLERY_PHOTOS_DIR.exists():
-        # サブディレクトリも含めて探索（例: gallery_photos/indigo/ などにも対応）
-        for f in sorted(GALLERY_PHOTOS_DIR.rglob("*")):
+        # サブディレクトリも含めて探索（reverse=True で新しい連番・名前が先頭になるように降順ソート）
+        for f in sorted(GALLERY_PHOTOS_DIR.rglob("*"), reverse=True):
             if f.is_file() and f.suffix.lower() in VALID_EXTENSIONS:
                 if "_thumb" in f.name:
                     continue
