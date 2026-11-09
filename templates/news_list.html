@@ -1,51 +1,32 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>お知らせ一覧 - {{ site_title }}</title>
-    <link rel="icon" href="/images/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    <link rel="stylesheet" href="/style.css?v=9">
+{% extends "base.html" %}
 
-    <!-- SEO & OGP -->
-    <meta name="description" content="過去のお知らせ・展示・アトリエオープンデイなどの活動記録一覧です。">
-    <link rel="canonical" href="https://seika2graphy.life/news/">
-    <meta property="og:title" content="お知らせ一覧 - {{ site_title }}">
-    <meta property="og:type" content="blog">
-    <meta property="og:url" content="https://seika2graphy.life/news/">
-</head>
-<body>
-    <header>
-        <h1 class="site-logo">
-            <a href="/">
-                <img src="/images/logo.png" alt="{{ site_title }}">
-            </a>
-        </h1>
-    </header>
+{% block title %}お知らせ一覧 - {{ site_title }}{% endblock %}
+{% block description %}過去のお知らせ・展示・アトリエオープンデイなどの活動記録一覧です。{% endblock %}
+{% block canonical %}https://seika2graphy.life/news/{% endblock %}
 
-    <main class="page-content">
-        <section class="news-archive-section">
-            <h2 class="page-title">お知らせ一覧</h2>
-            <ul class="news-list archive-list">
-                {% for art in articles %}
-                <li>
-                    <a href="/news/{{ art.slug }}.html">
-                        <time>{{ art.date }}</time>
-                        <span>{{ art.title }}</span>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
+{% block og_type %}blog{% endblock %}
+{% block og_title %}お知らせ一覧 - {{ site_title }}{% endblock %}
+{% block og_description %}過去のお知らせ・展示・アトリエオープンデイなどの活動記録一覧です。{% endblock %}
+{% block og_url %}https://seika2graphy.life/news/{% endblock %}
 
-            <div class="back-to-home">
-                <a href="/">← ホームへ戻る</a>
-            </div>
-        </section>
-    </main>
+{% block content %}
+<main class="page-content">
+    <section class="news-archive-section">
+        <h2 class="page-title">お知らせ一覧</h2>
+        <ul class="news-list archive-list">
+            {% for art in articles %}
+            <li>
+                <a href="/news/{{ art.slug }}.html">
+                    <time>{{ art.date }}</time>
+                    <span>{{ art.title }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
 
-    <footer>
-        <p>&copy; {{ site_title }}</p>
-    </footer>
-</body>
-</html>
+        <div class="back-to-home">
+            <a href="/">← ホームへ戻る</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

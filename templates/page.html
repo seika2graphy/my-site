@@ -1,76 +1,36 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} | 生活の写真</title>
+{% extends "base.html" %}
 
-    <!-- SEO & OGP 設定 -->
-    <meta name="description" content="{{ page.body | striptags | truncate(110) }}">
-    <!-- ファビコン設定 -->
-    <link rel="icon" href="/images/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    <link rel="canonical" href="https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html">
+{% block title %}{{ page.title }} | 生活の写真{% endblock %}
+{% block description %}{{ page.body | striptags | truncate(110) }}{% endblock %}
+{% block canonical %}https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html{% endblock %}
 
-    <!-- Facebook, LINE, 各種アプリ共通 -->
-    <meta property="og:site_name" content="生活の写真">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ page.title }} | 生活の写真">
-    <meta property="og:description" content="{{ page.body | striptags | truncate(110) }}">
-    <meta property="og:url" content="https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html">
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ page.title }} | 生活の写真{% endblock %}
+{% block og_description %}{{ page.body | striptags | truncate(110) }}{% endblock %}
+{% block og_url %}https://seika2graphy.life/{% if page.date %}news/{% else %}pages/{% endif %}{{ page.slug }}.html{% endblock %}
 
-    <!-- 個別写真の指定があればその写真、なければ共通の看板写真 -->
-    {% if page.image %}
-    <meta property="og:image" content="https://seika2graphy.life/images/{{ page.image }}">
-    {% else %}
-    <meta property="og:image" content="https://seika2graphy.life/images/ogp-default.jpg">
-    {% endif %}
+{% if page.image %}
+{% block og_image %}https://seika2graphy.life/images/{{ page.image }}{% endblock %}
+{% endif %}
 
-    <!-- X (Twitter) カード設定 -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ page.title }} | 生活の写真">
-    <meta name="twitter:description" content="{{ page.body | striptags | truncate(110) }}">
-    {% if page.image %}
-    <meta name="twitter:image" content="https://seika2graphy.life/images/{{ page.image }}">
-    {% else %}
-    <meta name="twitter:image" content="https://seika2graphy.life/images/ogp-default.jpg">
-    {% endif %}
-
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-
-    <header>
-        <h1 class="site-logo">
-            <a href="../index.html">
-                <img src="../images/logo.png" alt="{{ site_title }}">
-            </a>
-        </h1>
+{% block content %}
+<main class="page-single">
+    <header class="page-header">
+        <h1>{{ page.title }}</h1>
     </header>
 
-    <main class="page-single">
-        <header class="page-header">
-            <h1>{{ page.title }}</h1>
-        </header>
+    {% if page.image %}
+    <div class="article-hero">
+        <img src="/images/{{ page.image }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
 
-        {% if page.image %}
-        <div class="article-hero">
-            <img src="../images/{{ page.image }}" alt="{{ page.title }}">
-        </div>
-        {% endif %}
+    <div class="article-body">
+        {{ page.body | safe }}
+    </div>
 
-        <div class="article-body">
-            {{ page.body | safe }}
-        </div>
-
-        <div class="article-footer-nav">
-            <a href="../index.html" class="back-link">&larr; ホームへ戻る</a>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; {{ site_title }}</p>
-    </footer>
-
-</body>
-</html>
+    <div class="article-footer-nav">
+        <a href="/" class="back-link">&larr; ホームへ戻る</a>
+    </div>
+</main>
+{% endblock %}
