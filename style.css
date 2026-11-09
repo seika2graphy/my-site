@@ -719,4 +719,219 @@ article img + p > em {
         text-align: center;
         font-size: 1.1rem;
         margin-bottom: 1.2rem;
-        letter-spacing: 0.
+        letter-spacing: 0.05em;
+        margin-top: 1.2rem;
+        padding-top: 0.8rem;
+    }
+
+    .news-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    .news-list li {
+        border-bottom: 1px solid #eee;
+        padding: 0.8rem 0;
+    }
+
+    .news-list li a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        gap: 0.3rem;
+    }
+
+    .news-list li a time {
+        font-size: 0.75rem;
+        color: #888;
+        letter-spacing: 0.05em;
+    }
+
+    .news-list li a span {
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .news-single {
+        margin-bottom: 4rem;
+    }
+
+    .article-header h1 {
+        font-size: 1.35rem;
+    }
+
+    .article-body {
+        font-size: 0.95rem;
+        line-height: 1.85;
+    }
+}
+
+/* 過去のお知らせ一覧リンク */
+.more-news-link {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.more-news-link a {
+    font-size: 0.82rem;
+    color: #777;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.more-news-link a:hover {
+    color: #333;
+    border-color: #333;
+}
+
+/* 一覧ページ用の戻るリンク */
+.back-to-home {
+    text-align: center;
+    margin-top: 3.5rem;
+}
+
+.back-to-home a {
+    font-size: 0.82rem;
+    color: #777;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 2px;
+}
+
+.back-to-home a:hover {
+    color: #333;
+    border-color: #333;
+}
+
+/* お知らせアーカイブ一覧ページ */
+.news-archive-section {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.news-archive-section .page-title {
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: #444;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 560px;
+}
+
+.archive-list li {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+}
+
+.archive-list li a {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 1.2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+}
+
+.archive-list li a:hover {
+    opacity: 0.6;
+}
+
+.archive-list li a time {
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.archive-list li a span {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .news-archive-section {
+        margin: 2rem auto;
+        padding: 0 1.2rem;
+    }
+
+    .news-archive-section .page-title {
+        font-size: 0.95rem;
+        font-weight: 400;
+        text-align: center;
+        letter-spacing: 0.2em;
+        margin-bottom: 2rem;
+    }
+
+    .archive-list li a {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        text-align: center;
+    }
+
+    .archive-list li a time {
+        font-size: 0.75rem;
+    }
+
+    .archive-list li a span {
+        font-size: 0.88rem;
+    }
+}
+
+/* 「もっと見る」ボタンエリア */
+.load-more-container {
+    text-align: center;
+    margin: 2.5rem auto 4.5rem;
+}
+
+.load-more-button {
+    background: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 0.7rem 2.8rem;
+    font-size: 0.82rem;
+    font-family: inherit;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.load-more-button:hover {
+    color: #111;
+    border-color: #222;
+    background-color: #fcfcfc;
+}
+
+@media (max-width: 768px) {
+    .load-more-container {
+        margin: 1.8rem auto 3.5rem;
+    }
+    
+    .load-more-button {
+        font-size: 0.78rem;
+        padding: 0.6rem 2.2rem;
+    }
+}

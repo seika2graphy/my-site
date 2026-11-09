@@ -88,6 +88,11 @@
         {% endfor %}
     </div>
 
+    <!-- もっと見るボタン（12件超ある場合のみJSで表示） -->
+    <div class="load-more-container" id="load-more-container" style="display: none;">
+        <button type="button" class="load-more-button" id="load-more-btn">もっと見る</button>
+    </div>
+
     <div class="article-footer-nav">
         <a href="/" class="back-link">&larr; ホームへ戻る</a>
     </div>
@@ -110,26 +115,58 @@
 
 {% block extra_scripts %}
 <script>
-    // タブ切り替え処理
-    const tabs = document.querySelectorAll('.tab-button');
-    const items = document.querySelectorAll('.gallery-item');
+    const ITEMS_PER_PAGE = 12; // 1回あたりの最大表示数
+    let currentFilter = 'all';
+    let visibleCount = ITEMS_PER_PAGE;
 
+    const tabs = document.querySelectorAll('.tab-button');
+    const items = Array.from(document.querySelectorAll('.gallery-item'));
+    const loadMoreContainer = document.getElementById('load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    // フィルタと件数に応じた表示更新
+    function updateGallery() {
+        // 現在のタブに該当する要素を抽出
+        const matchedItems = items.filter(item => {
+            return currentFilter === 'all' || item.dataset.category === currentFilter;
+        });
+
+        // いったんすべての要素に非表示クラスを付与
+        items.forEach(item => item.classList.add('is-hidden'));
+
+        // 該当要素のうち visibleCount 件までを表示
+        matchedItems.slice(0, visibleCount).forEach(item => {
+            item.classList.remove('is-hidden');
+        });
+
+        // 残りがある場合のみ「もっと見る」ボタンを表示
+        if (matchedItems.length > visibleCount) {
+            loadMoreContainer.style.display = 'block';
+        } else {
+            loadMoreContainer.style.display = 'none';
+        }
+    }
+
+    // タブ切り替え処理
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            const filter = tab.dataset.filter;
-
-            items.forEach(item => {
-                if (filter === 'all' || item.dataset.category === filter) {
-                    item.classList.remove('is-hidden');
-                } else {
-                    item.classList.add('is-hidden');
-                }
-            });
+            currentFilter = tab.dataset.filter;
+            visibleCount = ITEMS_PER_PAGE; // タブ変更時は最初の12件にリセット
+            updateGallery();
         });
     });
+
+    // 「もっと見る」ボタンのクリックイベント
+    loadMoreBtn.addEventListener('click', () => {
+        visibleCount += ITEMS_PER_PAGE;
+        updateGallery();
+    });
+
+    // ページ読み込み時に初期描画を実行
+    updateGallery();
 
     // ライトボックス制御（写真・藍の両方の .photo-item を対象）
     const modal = document.getElementById('lightbox-modal');
