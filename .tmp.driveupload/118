@@ -439,22 +439,33 @@ footer {
 }
 
 .photo-item {
-    background-color: transparent; /* ★グレーの下地を透明にして露出を防止 */
+    background: transparent !important;
+    border: none !important;              /* ★枠自体の境界線を強制消去 */
+    box-shadow: none !important;          /* ★薄いグレーの影を消去 */
+    outline: none !important;
     overflow: hidden;
-    line-height: 0;                /* ★インライン隙間の徹底排除 */
+    line-height: 0;
     font-size: 0;
-    /* border-radius: 2px; は角のアンチエイリアスで隙間線が出やすいため外すのが確実 */
+}
+
+/* もし <a> タグで囲まれている場合の下線や枠線を消す */
+.photo-item a {
+    display: block;
+    line-height: 0;
+    text-decoration: none;
+    border: none !important;
+    outline: none !important;
 }
 
 .photo-item img {
     width: 100%;
-    height: 100%;
+    height: auto;                         /* 高さを固定せず比率に任せる */
+    aspect-ratio: 16 / 9;
     object-fit: cover;
-    aspect-ratio: 4 / 3; /* 写真枠の比率（正方形 1/1 や 3/2 にもお好みで変更可） */
     display: block;
+    border: none !important;              /* ★画像自身の境界線を強制消去 */
+    outline: none !important;
     vertical-align: bottom;
-    /* ★小数点の計算隙間を画像側で覆い隠す */
-    min-height: 100.5%;
     transition: transform 0.4s ease, opacity 0.3s ease;
 }
 
