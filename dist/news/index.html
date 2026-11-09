@@ -4,18 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>お知らせ一覧 - 生活の写真</title>
+
+    <!-- ファビコン設定 -->
     <link rel="icon" href="/images/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    <link rel="stylesheet" href="/style.css?v=9">
 
-    <!-- SEO & OGP -->
+    <!-- CSS（下層ページでも崩れないようルート相対パス化） -->
+    <link rel="stylesheet" href="/style.css?v=10">
+
+    <!-- SEO & OGP (SNSシェア用) 設定 -->
     <meta name="description" content="過去のお知らせ・展示・アトリエオープンデイなどの活動記録一覧です。">
     <link rel="canonical" href="https://seika2graphy.life/news/">
-    <meta property="og:title" content="お知らせ一覧 - 生活の写真">
+
+    <!-- Facebook, LINE, 各種アプリ共通 -->
+    <meta property="og:site_name" content="生活の写真">
     <meta property="og:type" content="blog">
+    <meta property="og:title" content="お知らせ一覧 - 生活の写真">
+    <meta property="og:description" content="過去のお知らせ・展示・アトリエオープンデイなどの活動記録一覧です。">
     <meta property="og:url" content="https://seika2graphy.life/news/">
+    <meta property="og:image" content="https://seika2graphy.life/images/ogp-default.jpg">
+
+    <!-- X (Twitter) カード設定 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="お知らせ一覧 - 生活の写真">
+    <meta name="twitter:description" content="過去のお知らせ・展示・アトリエオープンデイなどの活動記録一覧です。">
+    <meta name="twitter:image" content="https://seika2graphy.life/images/ogp-default.jpg">
+
+    <!-- RSS / Atom フィード自動検出 -->
+    <link rel="alternate" type="application/atom+xml" title="生活の写真 Feed" href="/feed.xml">
+
+    
 </head>
 <body>
+
+    <!-- 全ページ共通ロゴヘッダー -->
     <header>
         <h1 class="site-logo">
             <a href="/">
@@ -24,28 +46,48 @@
         </h1>
     </header>
 
-    <main class="page-content">
-        <section class="news-archive-section">
-            <h2 class="page-title">お知らせ一覧</h2>
-            <ul class="news-list archive-list">
-                
-                <li>
-                    <a href="/news/first-post.html">
-                        <time>2026-11-08</time>
-                        <span>リニューアル</span>
-                    </a>
-                </li>
-                
-            </ul>
+    <!-- 各ページごとのコンテンツが入るエリア -->
+    
+<main class="page-content">
+    <section class="news-archive-section">
+        <h2 class="page-title">お知らせ一覧</h2>
+        <ul class="news-list archive-list">
+            
+            <li>
+                <a href="/news/first-post.html">
+                    <time>2026-11-08</time>
+                    <span>リニューアル</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/news/2024-01-15-hmj.html">
+                    <time>2024-01-15</time>
+                    <span>ハンドメイドインジャパンフェス（HMJ）</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/news/2023-10-31-tsubri.html">
+                    <time>2023-10-31</time>
+                    <span>tsubri（つぶり）</span>
+                </a>
+            </li>
+            
+        </ul>
 
-            <div class="back-to-home">
-                <a href="/">← ホームへ戻る</a>
-            </div>
-        </section>
-    </main>
+        <div class="back-to-home">
+            <a href="/">← ホームへ戻る</a>
+        </div>
+    </section>
+</main>
 
+
+    <!-- 全ページ共通フッター -->
     <footer>
         <p>&copy; 生活の写真</p>
     </footer>
+
+    
 </body>
 </html>

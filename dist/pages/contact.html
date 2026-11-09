@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>お問合せ | 生活の写真</title>
 
-    <!-- SEO & OGP 設定 -->
-    <meta name="description" content="撮影のご依頼、展示や作品について、 その他ご相談がございましたら、下記よりお気軽にご連絡ください。 SNS（ダイレクトメッセージ） 写真の感想や気軽なメッセージ、DMでのご相談はこちらからどうぞ。...">
     <!-- ファビコン設定 -->
     <link rel="icon" href="/images/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <!-- CSS（下層ページでも崩れないようルート相対パス化） -->
+    <link rel="stylesheet" href="/style.css?v=10">
+
+    <!-- SEO & OGP (SNSシェア用) 設定 -->
+    <meta name="description" content="撮影のご依頼、展示や作品について、 その他ご相談がございましたら、下記よりお気軽にご連絡ください。 SNS（ダイレクトメッセージ） 写真の感想や気軽なメッセージ、DMでのご相談はこちらからどうぞ。...">
     <link rel="canonical" href="https://seika2graphy.life/pages/contact.html">
 
     <!-- Facebook, LINE, 各種アプリ共通 -->
@@ -18,41 +22,41 @@
     <meta property="og:title" content="お問合せ | 生活の写真">
     <meta property="og:description" content="撮影のご依頼、展示や作品について、 その他ご相談がございましたら、下記よりお気軽にご連絡ください。 SNS（ダイレクトメッセージ） 写真の感想や気軽なメッセージ、DMでのご相談はこちらからどうぞ。...">
     <meta property="og:url" content="https://seika2graphy.life/pages/contact.html">
-
-    <!-- 個別写真の指定があればその写真、なければ共通の看板写真 -->
-    
-    <meta property="og:image" content="https://seika2graphy.life/images/ogp-default.jpg">
-    
+    <meta property="og:image" content="https://seika2graphy.life/images/">
 
     <!-- X (Twitter) カード設定 -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="お問合せ | 生活の写真">
     <meta name="twitter:description" content="撮影のご依頼、展示や作品について、 その他ご相談がございましたら、下記よりお気軽にご連絡ください。 SNS（ダイレクトメッセージ） 写真の感想や気軽なメッセージ、DMでのご相談はこちらからどうぞ。...">
-    
-    <meta name="twitter:image" content="https://seika2graphy.life/images/ogp-default.jpg">
-    
+    <meta name="twitter:image" content="https://seika2graphy.life/images/">
 
-    <link rel="stylesheet" href="/style.css">
+    <!-- RSS / Atom フィード自動検出 -->
+    <link rel="alternate" type="application/atom+xml" title="生活の写真 Feed" href="/feed.xml">
+
+    
 </head>
 <body>
 
+    <!-- 全ページ共通ロゴヘッダー -->
     <header>
         <h1 class="site-logo">
-            <a href="../index.html">
-                <img src="../images/logo.png" alt="生活の写真">
+            <a href="/">
+                <img src="/images/logo.png" alt="生活の写真">
             </a>
         </h1>
     </header>
 
-    <main class="page-single">
-        <header class="page-header">
-            <h1>お問合せ</h1>
-        </header>
+    <!-- 各ページごとのコンテンツが入るエリア -->
+    
+<main class="page-single">
+    <header class="page-header">
+        <h1>お問合せ</h1>
+    </header>
 
-        
+    
 
-        <div class="article-body">
-            <p>撮影のご依頼、展示や作品について、
+    <div class="article-body">
+        <p>撮影のご依頼、展示や作品について、
 その他ご相談がございましたら、下記よりお気軽にご連絡ください。</p>
 <hr />
 <h2>SNS（ダイレクトメッセージ）</h2>
@@ -75,16 +79,19 @@
 <li>返信まで通常2〜3日ほどお時間をいただくことがあります。</li>
 <li>写真撮影のご相談は、日程や場所の目安を添えていただけますとスムーズです。</li>
 </ul>
-        </div>
+    </div>
 
-        <div class="article-footer-nav">
-            <a href="../index.html" class="back-link">&larr; ホームへ戻る</a>
-        </div>
-    </main>
+    <div class="article-footer-nav">
+        <a href="/" class="back-link">&larr; ホームへ戻る</a>
+    </div>
+</main>
 
+
+    <!-- 全ページ共通フッター -->
     <footer>
         <p>&copy; 生活の写真</p>
     </footer>
 
+    
 </body>
 </html>

@@ -4,46 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>リニューアル - 生活の写真</title>
-    <link rel="stylesheet" href="../style.css">
+
+    <!-- ファビコン設定 -->
+    <link rel="icon" href="/images/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <!-- CSS（下層ページでも崩れないようルート相対パス化） -->
+    <link rel="stylesheet" href="/style.css?v=10">
+
+    <!-- SEO & OGP (SNSシェア用) 設定 -->
+    <meta name="description" content="ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。">
+    <link rel="canonical" href="https://seika2graphy.life/">
+
+    <!-- Facebook, LINE, 各種アプリ共通 -->
+    <meta property="og:site_name" content="生活の写真">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="リニューアル - 生活の写真">
+    <meta property="og:description" content="ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。">
+    <meta property="og:url" content="https://seika2graphy.life/news/first-post.html">
+    <meta property="og:image" content="https://seika2graphy.life/images/2026-11-08.jpeg">
+
+    <!-- X (Twitter) カード設定 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="リニューアル - 生活の写真">
+    <meta name="twitter:description" content="ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。">
+    <meta name="twitter:image" content="https://seika2graphy.life/images/2026-11-08.jpeg">
+
+    <!-- RSS / Atom フィード自動検出 -->
+    <link rel="alternate" type="application/atom+xml" title="生活の写真 Feed" href="/feed.xml">
+
+    
 </head>
 <body>
 
-    <!-- トップと同じロゴヘッダー -->
+    <!-- 全ページ共通ロゴヘッダー -->
     <header>
         <h1 class="site-logo">
-            <a href="../index.html">
-                <img src="../images/logo.png" alt="生活の写真">
+            <a href="/">
+                <img src="/images/logo.png" alt="生活の写真">
             </a>
         </h1>
     </header>
 
-    <main class="news-single">
-        <header class="article-header">
-            <time datetime="2026-11-08">2026-11-08</time>
-            <h1>リニューアル</h1>
-        </header>
+    <!-- 各ページごとのコンテンツが入るエリア -->
+    
+<main class="news-single">
+    <header class="article-header">
+        <time datetime="2026-11-08">2026-11-08</time>
+        <h1>リニューアル</h1>
+    </header>
 
-        
-        <div class="article-hero">
-            <img src="../images/2026-11-08.jpeg" alt="リニューアル">
-        </div>
-        
+    
+    <div class="article-hero">
+        <img src="/images/2026-11-08.jpeg" alt="リニューアル">
+    </div>
+    
 
-        <div class="article-body">
-            <p>ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。</p>
-        </div>
+    <div class="article-body">
+        <p>ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。</p>
+    </div>
 
-        <!-- 記事下部に自然に戻れるリンクを配置 -->
-        <nav class="article-footer-nav" aria-label="記事ナビゲーション">
-            <a href="/news/" class="back-link">&larr; お知らせ一覧へ戻る</a>
-            <span class="nav-divider">/</span>
-            <a href="/" class="back-link">&larr; ホームへ戻る</a>
-        </nav>
-    </main>
+    <!-- 記事下部に自然に戻れるリンクを配置 -->
+    <nav class="article-footer-nav" aria-label="記事ナビゲーション">
+        <a href="/news/" class="back-link">&larr; お知らせ一覧へ戻る</a>
+        <span class="nav-divider">/</span>
+        <a href="/" class="back-link">&larr; ホームへ戻る</a>
+    </nav>
+</main>
 
+
+    <!-- 全ページ共通フッター -->
     <footer>
         <p>&copy; 生活の写真</p>
     </footer>
 
+    
 </body>
 </html>

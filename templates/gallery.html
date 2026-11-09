@@ -14,18 +14,76 @@
     </div>
     {% endif %}
 
-    <!-- 写真グリッド（サムネイルは16:9のthumb、拡大用URLをdata-displayに保持） -->
+    <!-- タブ切り替えボタン -->
+    <div class="gallery-tabs" role="tablist">
+        <button type="button" class="tab-button active" data-filter="all">すべて</button>
+        <button type="button" class="tab-button" data-filter="photo">写真</button>
+        <button type="button" class="tab-button" data-filter="indigo">藍</button>
+        <button type="button" class="tab-button" data-filter="video">映像</button>
+        <button type="button" class="tab-button" data-filter="audio">音</button>
+    </div>
+
+    <!-- ギャラリーグリッド（元の photo-grid を維持） -->
     <div class="photo-grid">
+        {# --- 写真アイテム --- #}
         {% for photo in gallery_photos %}
-        <div class="photo-item" data-display="/gallery_photos/{{ photo.display }}">
-            <img 
-                src="/gallery_photos/{{ photo.thumb }}" 
-                alt="{{ photo.title }}" 
-                loading="lazy"
-                class="protect-img gallery-thumb"
-                oncontextmenu="return false;"
-                ondragstart="return false;"
-            >
+        <div class="gallery-item" data-category="photo">
+            <div class="photo-item" data-display="/gallery_photos/{{ photo.display }}">
+                <img 
+                    src="/gallery_photos/{{ photo.thumb }}" 
+                    alt="{{ photo.title }}" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+        </div>
+        {% endfor %}
+
+        {# --- 藍（写真）アイテム --- #}
+        {% for indigo in gallery_indigo %}
+        <div class="gallery-item" data-category="indigo">
+            <div class="photo-item" data-display="/gallery_photos/{{ indigo.display }}">
+                <img 
+                    src="/gallery_photos/{{ indigo.thumb }}" 
+                    alt="{{ indigo.title }}" 
+                    loading="lazy"
+                    class="protect-img gallery-thumb"
+                    oncontextmenu="return false;"
+                    ondragstart="return false;"
+                >
+            </div>
+        </div>
+        {% endfor %}
+
+        {# --- 映像（YouTube）アイテム --- #}
+        {% for video in gallery_videos %}
+        <div class="gallery-item" data-category="video">
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/{{ video.youtube_id }}?rel=0" 
+                    title="{{ video.title }}" 
+                    loading="lazy" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        {% endfor %}
+
+        {# --- 音（SoundCloud）アイテム --- #}
+        {% for audio in gallery_audios %}
+        <div class="gallery-item" data-category="audio">
+            <div class="audio-container">
+                <iframe 
+                    scrolling="no" 
+                    frameborder="no" 
+                    allow="autoplay" 
+                    loading="lazy"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{ audio.soundcloud_track_id }}&color=%23111111&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true">
+                </iframe>
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -35,7 +93,7 @@
     </div>
 </main>
 
-<!-- 拡大表示用モーダル（ライトボックス） -->
+<!-- 拡大表示用モーダル（写真・藍のどちらもクリックで連動） -->
 <div id="lightbox-modal" class="lightbox" onclick="closeLightbox(event)">
     <button type="button" class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
     <div class="lightbox-content">
@@ -45,22 +103,41 @@
             alt="Enlarged Photo"
             class="protect-img"
             oncontextmenu="return false;"
-            ondragstart="return false;"
         >
     </div>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-<!-- ライトボックス制御スクリプト -->
 <script>
+    // タブ切り替え処理
+    const tabs = document.querySelectorAll('.tab-button');
+    const items = document.querySelectorAll('.gallery-item');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const filter = tab.dataset.filter;
+
+            items.forEach(item => {
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.classList.remove('is-hidden');
+                } else {
+                    item.classList.add('is-hidden');
+                }
+            });
+        });
+    });
+
+    // ライトボックス制御（写真・藍の両方の .photo-item を対象）
     const modal = document.getElementById('lightbox-modal');
     const modalImg = document.getElementById('lightbox-img');
     const photoItems = document.querySelectorAll('.photo-item');
 
     photoItems.forEach(item => {
         item.addEventListener('click', () => {
-            // data-display にある高解像度表示用WebPをモーダルにセット
             const displaySrc = item.getAttribute('data-display');
             if (displaySrc) {
                 modalImg.src = displaySrc;

@@ -1,5 +1,6 @@
 import os
 import shutil
+import json
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 import markdown
@@ -14,6 +15,7 @@ IMAGES_DIR = BASE_DIR / "images"
 TEMPLATES_DIR = BASE_DIR / "templates"
 NEWS_DIR = BASE_DIR / "news"
 PAGES_DIR = BASE_DIR / "pages"
+DATA_DIR = BASE_DIR / "data"
 DIST_DIR = BASE_DIR / "dist"
 SITE_TITLE = "生活の写真"
 
@@ -92,6 +94,30 @@ def convert_gallery_photo(src_path: Path, dest_dir: Path, display_size=(1800, 18
     }
 
 
+def load_media_data():
+    """映像（YouTube）と音（SoundCloud）の定義リストをロード（なければ空リスト）"""
+    DATA_DIR.mkdir(exist_ok=True)
+    
+    videos_file = DATA_DIR / "videos.json"
+    audios_file = DATA_DIR / "audios.json"
+
+    gallery_videos = []
+    if videos_file.exists():
+        try:
+            gallery_videos = json.loads(videos_file.read_text(encoding="utf-8"))
+        except Exception:
+            gallery_videos = []
+
+    gallery_audios = []
+    if audios_file.exists():
+        try:
+            gallery_audios = json.loads(audios_file.read_text(encoding="utf-8"))
+        except Exception:
+            gallery_audios = []
+
+    return gallery_videos, gallery_audios
+
+
 def parse_markdown(file_path):
     content = file_path.read_text(encoding="utf-8")
     meta = {}
@@ -124,7 +150,6 @@ def parse_markdown(file_path):
         "body": body_html,
     }
 
-import html
 
 def generate_feed(articles):
     """お知らせ記事を購読可能な Atom フィード (feed.xml) として出力する"""
@@ -145,13 +170,11 @@ def generate_feed(articles):
         f'  </author>'
     ]
 
-    # 最新記事（最大15件程度）をエントリーとして追加
     for art in articles[:15]:
         slug = art.get("slug")
         title = html.escape(art.get("title", ""))
         article_url = f"{base_url}/news/{slug}.html"
         
-        # 日付処理（YYYY-MM-DD を RFC 3339 形式に変換）
         raw_date = art.get("date", "")
         if raw_date:
             try:
@@ -245,40 +268,52 @@ def build():
                 webp_name = convert_hero_image(f, dist_hero)
                 hero_photos.append(webp_name)
 
-    # 2. ギャラリー画像（表示用 + 16:9サムネイルのWebP生成）
+    # 2. ギャラリー画像（写真 ＆ 藍 の仕分け）
     dist_gallery = DIST_DIR / "gallery_photos"
     dist_gallery.mkdir(parents=True, exist_ok=True)
     gallery_photos = []
+    gallery_indigo = []
+
     if GALLERY_PHOTOS_DIR.exists():
-        for f in sorted(GALLERY_PHOTOS_DIR.iterdir()):
-            if f.suffix.lower() in VALID_EXTENSIONS:
+        # サブディレクトリも含めて探索（例: gallery_photos/indigo/ などにも対応）
+        for f in sorted(GALLERY_PHOTOS_DIR.rglob("*")):
+            if f.is_file() and f.suffix.lower() in VALID_EXTENSIONS:
                 if "_thumb" in f.name:
                     continue
                 photo_data = convert_gallery_photo(f, dist_gallery)
-                gallery_photos.append(photo_data)
 
-    # 3. その他画像（ロゴなど）コピー
+                # フォルダ名またはファイル名に 'indigo' や '藍' が含まれていれば「藍」に分類
+                is_indigo = "indigo" in f.parent.name.lower() or "indigo" in f.stem.lower() or "藍" in f.stem
+                if is_indigo:
+                    gallery_indigo.append(photo_data)
+                else:
+                    gallery_photos.append(photo_data)
+
+    # 3. 映像・音の外部データ読み込み
+    gallery_videos, gallery_audios = load_media_data()
+
+    # 4. その他画像（ロゴなど）コピー
     dist_images = DIST_DIR / "images"
     dist_images.mkdir(parents=True, exist_ok=True)
     if IMAGES_DIR.exists():
         shutil.copytree(IMAGES_DIR, dist_images, dirs_exist_ok=True)
 
-    # 4. 記事・固定ページの読み込み
+    # 5. 記事・固定ページの読み込み
     articles = [parse_markdown(f) for f in NEWS_DIR.glob("*.md")]
     articles.sort(key=lambda x: x["date"], reverse=True)
     pages = [parse_markdown(f) for f in PAGES_DIR.glob("*.md")]
 
-    # 5. テンプレート描画
+    # 6. テンプレート描画
     env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     
-    # 5-1. お知らせ個別詳細
+    # 6-1. お知らせ個別詳細
     article_template = env.get_template("article.html")
     for art in articles:
         (NEWS_DIST_DIR / f"{art['slug']}.html").write_text(
             article_template.render(**SITE_CONFIG, article=art), encoding="utf-8"
         )
 
-    # 5-2. アーカイブ一覧ページ（/news/index.html）
+    # 6-2. アーカイブ一覧ページ（/news/index.html）
     news_list_template = env.get_template("news_list.html")
     news_list_html = news_list_template.render(
         site_title=SITE_TITLE,
@@ -286,7 +321,7 @@ def build():
     )
     (NEWS_DIST_DIR / "index.html").write_text(news_list_html, encoding="utf-8")
 
-    # 5-3. トップページ（最新5件）
+    # 6-3. トップページ（最新5件）
     index_template = env.get_template("index.html")
     index_html = index_template.render(
         **SITE_CONFIG,
@@ -295,25 +330,37 @@ def build():
     )
     (DIST_DIR / "index.html").write_text(index_html, encoding="utf-8")
 
-    # 5-4. 固定ページ（pages/配下）
+    # 6-4. 固定ページ（pages/配下）
     page_template = env.get_template("page.html")
     gallery_template = env.get_template("gallery.html")
     
     for p in pages:
         if p["slug"] == "gallery":
-            html = gallery_template.render(**SITE_CONFIG, page=p, gallery_photos=gallery_photos)
+            html = gallery_template.render(
+                **SITE_CONFIG,
+                page=p,
+                gallery_photos=gallery_photos,
+                gallery_indigo=gallery_indigo,
+                gallery_videos=gallery_videos,
+                gallery_audios=gallery_audios
+            )
         else:
             html = page_template.render(**SITE_CONFIG, page=p)
         (PAGES_DIST_DIR / f"{p['slug']}.html").write_text(html, encoding="utf-8")
 
-    # 6. sitemap.xml & feed.xml の自動生成
+    # 7. sitemap.xml & feed.xml の自動生成
     generate_sitemap(articles)
     generate_feed(articles) 
 
     # GitHub Pages用：Jekyllの自動処理を無効化する空ファイルを生成
     (DIST_DIR / ".nojekyll").touch()
 
-    print(f"ビルド完了！ ギャラリー写真: {len(gallery_photos)}枚 / ヒーロー写真: {len(hero_photos)}枚 / お知らせ: {len(articles)}件")
+    print(
+        f"ビルド完了！ "
+        f"写真: {len(gallery_photos)}枚 / 藍: {len(gallery_indigo)}枚 / "
+        f"映像: {len(gallery_videos)}件 / 音: {len(gallery_audios)}件 / "
+        f"ヒーロー: {len(hero_photos)}枚 / お知らせ: {len(articles)}件"
+    )
 
 
 if __name__ == "__main__":

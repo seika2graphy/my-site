@@ -5,7 +5,7 @@
   <link href="https://seika2graphy.life/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://seika2graphy.life/" rel="alternate" type="text/html"/>
   <id>https://seika2graphy.life/</id>
-  <updated>2026-11-09T12:49:31Z</updated>
+  <updated>2026-11-09T16:31:50Z</updated>
   <author>
     <name>生活の写真</name>
   </author>
@@ -16,5 +16,28 @@
     <published>2026-11-08T09:00:00+09:00</published>
     <updated>2026-11-08T09:00:00+09:00</updated>
     <content type="html"><![CDATA[<p>ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。</p>]]></content>
+  </entry>
+  <entry>
+    <title>ハンドメイドインジャパンフェス（HMJ）</title>
+    <link href="https://seika2graphy.life/news/2024-01-15-hmj.html" rel="alternate" type="text/html"/>
+    <id>https://seika2graphy.life/news/2024-01-15-hmj.html</id>
+    <published>2024-01-15T09:00:00+09:00</published>
+    <updated>2024-01-15T09:00:00+09:00</updated>
+    <content type="html"><![CDATA[<p>HMJ出展 無事終了いたしました。</p>
+<p>ご来場いただいた皆様 ありがとうございました。</p>]]></content>
+  </entry>
+  <entry>
+    <title>tsubri（つぶり）</title>
+    <link href="https://seika2graphy.life/news/2023-10-31-tsubri.html" rel="alternate" type="text/html"/>
+    <id>https://seika2graphy.life/news/2023-10-31-tsubri.html</id>
+    <published>2023-10-31T09:00:00+09:00</published>
+    <updated>2023-10-31T09:00:00+09:00</updated>
+    <content type="html"><![CDATA[<p>アクセサリーや小物のライン 名称を"tsubri"（つぶり）としました。</p>
+<p>初作品ができましたので 販売を開始しています。
+生産数少なめになりますが よろしくお願いいたします。</p>
+<p>初作品は 藍染した和紙をエポキシ樹脂で整えました。
+表面はフロストガラスのように曇っており 光を当てると透けて見えます。</p>
+<p>サイズは縦4cm 横3cm。</p>
+<p>底面は平らになっていますので そのまま飾っていただけます。</p>]]></content>
   </entry>
 </feed>

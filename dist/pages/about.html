@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>アトリエについて | 生活の写真</title>
 
-    <!-- SEO & OGP 設定 -->
-    <meta name="description" content="日常のささやかな光や、移ろう季節の気配を留めるための小さなアトリエです。 写真は、特別な瞬間だけを記録するものではなく、 日々の暮らしのなかに静かに佇む光や影、...">
     <!-- ファビコン設定 -->
     <link rel="icon" href="/images/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <!-- CSS（下層ページでも崩れないようルート相対パス化） -->
+    <link rel="stylesheet" href="/style.css?v=10">
+
+    <!-- SEO & OGP (SNSシェア用) 設定 -->
+    <meta name="description" content="日常のささやかな光や、移ろう季節の気配を留めるための小さなアトリエです。 写真は、特別な瞬間だけを記録するものではなく、 日々の暮らしのなかに静かに佇む光や影、...">
     <link rel="canonical" href="https://seika2graphy.life/pages/about.html">
 
     <!-- Facebook, LINE, 各種アプリ共通 -->
@@ -18,41 +22,41 @@
     <meta property="og:title" content="アトリエについて | 生活の写真">
     <meta property="og:description" content="日常のささやかな光や、移ろう季節の気配を留めるための小さなアトリエです。 写真は、特別な瞬間だけを記録するものではなく、 日々の暮らしのなかに静かに佇む光や影、...">
     <meta property="og:url" content="https://seika2graphy.life/pages/about.html">
-
-    <!-- 個別写真の指定があればその写真、なければ共通の看板写真 -->
-    
-    <meta property="og:image" content="https://seika2graphy.life/images/ogp-default.jpg">
-    
+    <meta property="og:image" content="https://seika2graphy.life/images/">
 
     <!-- X (Twitter) カード設定 -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="アトリエについて | 生活の写真">
     <meta name="twitter:description" content="日常のささやかな光や、移ろう季節の気配を留めるための小さなアトリエです。 写真は、特別な瞬間だけを記録するものではなく、 日々の暮らしのなかに静かに佇む光や影、...">
-    
-    <meta name="twitter:image" content="https://seika2graphy.life/images/ogp-default.jpg">
-    
+    <meta name="twitter:image" content="https://seika2graphy.life/images/">
 
-    <link rel="stylesheet" href="/style.css">
+    <!-- RSS / Atom フィード自動検出 -->
+    <link rel="alternate" type="application/atom+xml" title="生活の写真 Feed" href="/feed.xml">
+
+    
 </head>
 <body>
 
+    <!-- 全ページ共通ロゴヘッダー -->
     <header>
         <h1 class="site-logo">
-            <a href="../index.html">
-                <img src="../images/logo.png" alt="生活の写真">
+            <a href="/">
+                <img src="/images/logo.png" alt="生活の写真">
             </a>
         </h1>
     </header>
 
-    <main class="page-single">
-        <header class="page-header">
-            <h1>アトリエについて</h1>
-        </header>
+    <!-- 各ページごとのコンテンツが入るエリア -->
+    
+<main class="page-single">
+    <header class="page-header">
+        <h1>アトリエについて</h1>
+    </header>
 
-        
+    
 
-        <div class="article-body">
-            <p>日常のささやかな光や、移ろう季節の気配を留めるための小さなアトリエです。</p>
+    <div class="article-body">
+        <p>日常のささやかな光や、移ろう季節の気配を留めるための小さなアトリエです。</p>
 <p>写真は、特別な瞬間だけを記録するものではなく、
 日々の暮らしのなかに静かに佇む光や影、
 手仕事の感触、その場所の空気をそのまま受け止めるためのもの。</p>
@@ -123,16 +127,19 @@ Photoback 2016年3月の一冊「零れ落ちてゆく日々に遺された色�
 2017
 ACTアート大賞展 プリント部門 佳作
 -->
-        </div>
+    </div>
 
-        <div class="article-footer-nav">
-            <a href="../index.html" class="back-link">&larr; ホームへ戻る</a>
-        </div>
-    </main>
+    <div class="article-footer-nav">
+        <a href="/" class="back-link">&larr; ホームへ戻る</a>
+    </div>
+</main>
 
+
+    <!-- 全ページ共通フッター -->
     <footer>
         <p>&copy; 生活の写真</p>
     </footer>
 
+    
 </body>
 </html>
