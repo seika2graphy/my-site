@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>生活の写真</title>
+  <subtitle>日常の光と影、手仕事と写真記録。生活の写真のアトリエサイト。</subtitle>
+  <link href="https://seika2graphy.life/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://seika2graphy.life/" rel="alternate" type="text/html"/>
+  <id>https://seika2graphy.life/</id>
+  <updated>2026-11-09T12:49:31Z</updated>
+  <author>
+    <name>生活の写真</name>
+  </author>
+  <entry>
+    <title>リニューアル</title>
+    <link href="https://seika2graphy.life/news/first-post.html" rel="alternate" type="text/html"/>
+    <id>https://seika2graphy.life/news/first-post.html</id>
+    <published>2026-11-08T09:00:00+09:00</published>
+    <updated>2026-11-08T09:00:00+09:00</updated>
+    <content type="html"><![CDATA[<p>ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。</p>]]></content>
+  </entry>
+</feed>

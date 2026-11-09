@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main  # mainブランチにpushされたら自動実行
+  workflow_dispatch:  # ← GitHub画面から手動実行ボタン
 
 permissions:
   contents: read

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_title }}{% endblock %}</title>
+
+    <!-- ファビコン設定 -->
+    <link rel="icon" href="/images/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+    <!-- CSS（下層ページでも崩れないようルート相対パス化） -->
+    <link rel="stylesheet" href="/style.css?v=10">
+
+    <!-- SEO & OGP (SNSシェア用) 設定 -->
+    <meta name="description" content="{% block description %}日常の光と影、手仕事と写真記録。生活の写真のアトリエサイト。{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}https://seika2graphy.life/{% endblock %}">
+
+    <!-- Facebook, LINE, 各種アプリ共通 -->
+    <meta property="og:site_name" content="生活の写真">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}https://seika2graphy.life/{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://seika2graphy.life/images/ogp-default.jpg{% endblock %}">
+
+    <!-- X (Twitter) カード設定 -->
+    <meta name="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock %}">
+    <meta name="twitter:title" content="{{ self.og_title() }}">
+    <meta name="twitter:description" content="{{ self.og_description() }}">
+    <meta name="twitter:image" content="{{ self.og_image() }}">
+
+    <!-- RSS / Atom フィード自動検出 -->
+    <link rel="alternate" type="application/atom+xml" title="{{ site_title }} Feed" href="/feed.xml">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- 全ページ共通ロゴヘッダー -->
+    <header>
+        <h1 class="site-logo">
+            <a href="/">
+                <img src="/images/logo.png" alt="{{ site_title }}">
+            </a>
+        </h1>
+    </header>
+
+    <!-- 各ページごとのコンテンツが入るエリア -->
+    {% block content %}{% endblock %}
+
+    <!-- 全ページ共通フッター -->
+    <footer>
+        <p>&copy; {{ site_title }}</p>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

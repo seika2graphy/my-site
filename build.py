@@ -5,6 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 import markdown
 from PIL import Image, ImageOps
 from datetime import datetime
+import html
 
 BASE_DIR = Path(__file__).parent
 HERO_PHOTOS_DIR = BASE_DIR / "hero_photos"
@@ -18,20 +19,78 @@ SITE_TITLE = "生活の写真"
 
 SITE_CONFIG = {
     "site_title": "生活の写真",
-    "site_description": "",
+    "site_description": "日常の光と影、手仕事と写真記録。生活の写真のアトリエサイト。",
 }
 
-def process_gallery_photo(source_path, dest_path):
-    """透かしなし・Exifの向き情報だけ正しく補正して保存"""
-    with Image.open(source_path) as img:
-        # 縦写真が横倒しにならないよう向きを自動補正
+VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+
+
+def convert_hero_image(src_path: Path, dest_dir: Path, max_size=(1920, 1080), quality=85):
+    """ヒーロー画像用：16:9を意識した長辺1920pxの表示用WebPを生成"""
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    out_file = dest_dir / f"{src_path.stem}.webp"
+
+    # すでに変換済みで元画像より新しければスキップ
+    if out_file.exists() and out_file.stat().st_mtime > src_path.stat().st_mtime:
+        return out_file.name
+
+    with Image.open(src_path) as img:
         img = ImageOps.exif_transpose(img)
-        
-        ext = dest_path.suffix.lower()
-        if ext == ".png":
-            img.save(dest_path, "PNG")
-        else:
-            img.convert("RGB").save(dest_path, "JPEG", quality=95)
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        img.save(out_file, "WEBP", quality=quality, method=6)
+
+    print(f"[Hero] Converted: {src_path.name} -> {out_file.name}")
+    return out_file.name
+
+
+def convert_gallery_photo(src_path: Path, dest_dir: Path, display_size=(1800, 1800), thumb_size=(640, 360), quality=82):
+    """
+    ギャラリー写真用：
+    - 表示用: 元の縦横比を維持して長辺1800pxにリサイズ
+    - サムネイル: 中央基準で 16:9 (640x360) にクロップ＆WebP化
+    """
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    stem = src_path.stem
+    display_file = dest_dir / f"{stem}.webp"
+    thumb_file = dest_dir / f"{stem}_thumb.webp"
+
+    # 両方存在し元画像より新しければスキップ
+    if display_file.exists() and thumb_file.exists():
+        src_mtime = src_path.stat().st_mtime
+        if display_file.stat().st_mtime > src_mtime and thumb_file.stat().st_mtime > src_mtime:
+            return {
+                "stem": stem,
+                "filename": display_file.name,
+                "display": display_file.name,
+                "thumb": thumb_file.name,
+                "title": stem.replace("-", " ").replace("_", " ")
+            }
+
+    with Image.open(src_path) as img:
+        img = ImageOps.exif_transpose(img)
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
+        # 1. 表示用 (Display)
+        img_display = img.copy()
+        img_display.thumbnail(display_size, Image.Resampling.LANCZOS)
+        img_display.save(display_file, "WEBP", quality=quality, method=6)
+
+        # 2. 16:9 サムネイル用 (Thumb)
+        img_thumb = ImageOps.fit(img, thumb_size, method=Image.Resampling.LANCZOS, centering=(0.5, 0.5))
+        img_thumb.save(thumb_file, "WEBP", quality=quality - 5, method=6)
+
+    print(f"[Gallery 16:9] Converted: {src_path.name} -> {display_file.name}, {thumb_file.name}")
+    return {
+        "stem": stem,
+        "filename": display_file.name,
+        "display": display_file.name,
+        "thumb": thumb_file.name,
+        "title": stem.replace("-", " ").replace("_", " ")
+    }
+
 
 def parse_markdown(file_path):
     content = file_path.read_text(encoding="utf-8")
@@ -65,127 +124,67 @@ def parse_markdown(file_path):
         "body": body_html,
     }
 
-def build():
-    DIST_DIR.mkdir(exist_ok=True)
-    NEWS_DIST_DIR = DIST_DIR / "news"
-    NEWS_DIST_DIR.mkdir(exist_ok=True)
-    PAGES_DIST_DIR = DIST_DIR / "pages"
-    PAGES_DIST_DIR.mkdir(exist_ok=True)
-    HERO_PHOTOS_DIR.mkdir(exist_ok=True)
-    GALLERY_PHOTOS_DIR.mkdir(exist_ok=True)
-    IMAGES_DIR.mkdir(exist_ok=True)
-    PAGES_DIR.mkdir(exist_ok=True)
-    
-    shutil.copy(BASE_DIR / "style.css", DIST_DIR / "style.css")
-    
-    valid_extensions = {".jpg", ".jpeg", ".png", ".webp"}
+import html
 
-    # 1. TOP画像コピー
-    dist_hero = DIST_DIR / "hero_photos"
-    # dist_hero を安全に作成（消さずに保持）
-    dist_hero.mkdir(parents=True, exist_ok=True)
-    if HERO_PHOTOS_DIR.exists():  # ※定義されている元の hero フォルダ変数名
-        shutil.copytree(HERO_PHOTOS_DIR, dist_hero, dirs_exist_ok=True)
-    shutil.copytree(HERO_PHOTOS_DIR, dist_hero, dirs_exist_ok=True)
-    hero_photos = [f.name for f in HERO_PHOTOS_DIR.iterdir() if f.suffix.lower() in valid_extensions]
+def generate_feed(articles):
+    """お知らせ記事を購読可能な Atom フィード (feed.xml) として出力する"""
+    base_url = "https://seika2graphy.life"
+    feed_updated = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    # 2. ギャラリー画像（向き補正して書き出し）
-    dist_gallery = DIST_DIR / "gallery_photos"
-    dist_gallery.mkdir(parents=True, exist_ok=True)
-    if GALLERY_PHOTOS_DIR.exists():  # ※定義されている元の gallery フォルダ変数名
-        shutil.copytree(GALLERY_PHOTOS_DIR, dist_gallery, dirs_exist_ok=True)
-    dist_gallery.mkdir(exist_ok=True)
+    xml_lines = [
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<feed xmlns="http://www.w3.org/2005/Atom">',
+        f'  <title>{SITE_TITLE}</title>',
+        f'  <subtitle>{SITE_CONFIG.get("site_description", "")}</subtitle>',
+        f'  <link href="{base_url}/feed.xml" rel="self" type="application/atom+xml"/>',
+        f'  <link href="{base_url}/" rel="alternate" type="text/html"/>',
+        f'  <id>{base_url}/</id>',
+        f'  <updated>{feed_updated}</updated>',
+        f'  <author>',
+        f'    <name>{SITE_TITLE}</name>',
+        f'  </author>'
+    ]
 
-    gallery_photos = []
-    for f in sorted(GALLERY_PHOTOS_DIR.iterdir()):
-        if f.suffix.lower() in valid_extensions:
-            target_path = dist_gallery / f.name
-            process_gallery_photo(f, target_path)
-            gallery_photos.append({
-                "filename": f.name,
-                "title": f.stem.replace("-", " ").replace("_", " ")
-            })
-
-    # 3. その他画像（ロゴなど）コピー
-    dist_images = DIST_DIR / "images"
-    dist_images.mkdir(parents=True, exist_ok=True)
-    if IMAGES_DIR.exists():
-        shutil.copytree(IMAGES_DIR, dist_images, dirs_exist_ok=True)
-
-    # 4. 記事・固定ページの読み込み
-    articles = [parse_markdown(f) for f in NEWS_DIR.glob("*.md")]
-    articles.sort(key=lambda x: x["date"], reverse=True)
-    pages = [parse_markdown(f) for f in PAGES_DIR.glob("*.md")]
-
-    # 5. テンプレート描画
-    env = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
-    
-    # お知らせ詳細
-    article_template = env.get_template("article.html")
-    for art in articles:
-        (NEWS_DIST_DIR / f"{art['slug']}.html").write_text(
-            article_template.render(**SITE_CONFIG, article=art), encoding="utf-8"
-        )
-    
-    # 記事を日付の降順（新しい順）で並び替え
-    articles.sort(key=lambda x: x["date"], reverse=True)
-
-    # 1. アーカイブ一覧ページ（/news/ または /news/index.html）を生成
-    news_list_template = env.get_template("news_list.html")
-    news_dir = DIST_DIR / "news"
-    news_dir.mkdir(parents=True, exist_ok=True)
-    
-    news_list_html = news_list_template.render(
-        site_title=SITE_TITLE,
-        articles=articles  # 全件を渡す
-    )
-    (news_dir / "index.html").write_text(news_list_html, encoding="utf-8")
-
-    # 2. トップページ用には最新5件だけを渡す（スライス）
-    index_template = env.get_template("index.html")
-    index_html = index_template.render(
-        site_title=SITE_TITLE,
-        hero_photos=hero_photos,
-        articles=articles[:5]  # ★最新5件に絞る（件数はお好みで変更OK）
-    )
-    (DIST_DIR / "index.html").write_text(index_html, encoding="utf-8")
-
-    # 固定ページ（gallery のみ gallery.html）
-    page_template = env.get_template("page.html")
-    gallery_template = env.get_template("gallery.html")
-    
-    for p in pages:
-        if p["slug"] == "gallery":
-            html = gallery_template.render(**SITE_CONFIG, page=p, gallery_photos=gallery_photos)
+    # 最新記事（最大15件程度）をエントリーとして追加
+    for art in articles[:15]:
+        slug = art.get("slug")
+        title = html.escape(art.get("title", ""))
+        article_url = f"{base_url}/news/{slug}.html"
+        
+        # 日付処理（YYYY-MM-DD を RFC 3339 形式に変換）
+        raw_date = art.get("date", "")
+        if raw_date:
+            try:
+                dt = datetime.strptime(raw_date, "%Y-%m-%d")
+                published_str = dt.strftime("%Y-%m-%dT09:00:00+09:00")
+            except ValueError:
+                published_str = feed_updated
         else:
-            html = page_template.render(**SITE_CONFIG, page=p)
-        (PAGES_DIST_DIR / f"{p['slug']}.html").write_text(html, encoding="utf-8")
+            published_str = feed_updated
 
-    # TOPページ
-    index_template = env.get_template("index.html")
-    (DIST_DIR / "index.html").write_text(
-        index_template.render(
-            **SITE_CONFIG,
-            hero_photos=hero_photos,
-            articles=articles,
-        ),
-        encoding="utf-8"
-    )
-    
-    # GitHub Pages用：Jekyllの自動処理を無効化する空ファイルを生成
-    (DIST_DIR / ".nojekyll").touch()
+        body_content = art.get("body", "")
 
-    print(f"ビルド完了！ ギャラリー写真: {len(gallery_photos)}枚 / お知らせ: {len(articles)}件")
+        xml_lines.append('  <entry>')
+        xml_lines.append(f'    <title>{title}</title>')
+        xml_lines.append(f'    <link href="{article_url}" rel="alternate" type="text/html"/>')
+        xml_lines.append(f'    <id>{article_url}</id>')
+        xml_lines.append(f'    <published>{published_str}</published>')
+        xml_lines.append(f'    <updated>{published_str}</updated>')
+        xml_lines.append(f'    <content type="html"><![CDATA[{body_content}]]></content>')
+        xml_lines.append('  </entry>')
 
-if __name__ == "__main__":
-    build()
-    
+    xml_lines.append('</feed>')
+
+    feed_content = "\n".join(xml_lines)
+    (DIST_DIR / "feed.xml").write_text(feed_content, encoding="utf-8")
+    print(f"Generated feed.xml with {min(len(articles), 15)} entries.")
+
+
 def generate_sitemap(articles):
     """固定ページとお知らせ記事を網羅した sitemap.xml を生成する"""
     base_url = "https://seika2graphy.life"
     today = datetime.now().strftime("%Y-%m-%d")
 
-    # 1. 基本となる固定ページ（優先度と更新頻度）
     urls = [
         {"loc": f"{base_url}/", "lastmod": today, "changefreq": "weekly", "priority": "1.0"},
         {"loc": f"{base_url}/pages/about.html", "lastmod": today, "changefreq": "monthly", "priority": "0.8"},
@@ -193,7 +192,6 @@ def generate_sitemap(articles):
         {"loc": f"{base_url}/news/", "lastmod": today, "changefreq": "weekly", "priority": "0.8"},
     ]
 
-    # 2. 全お知らせ個別記事を追加
     for article in articles:
         slug = article.get("slug")
         lastmod = article.get("date", today)
@@ -204,7 +202,6 @@ def generate_sitemap(articles):
             "priority": "0.6"
         })
 
-    # 3. XML形式に整形
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
@@ -237,31 +234,28 @@ def build():
     PAGES_DIR.mkdir(exist_ok=True)
     
     shutil.copy(BASE_DIR / "style.css", DIST_DIR / "style.css")
-    
-    valid_extensions = {".jpg", ".jpeg", ".png", ".webp"}
 
-    # 1. TOP画像コピー
+    # 1. TOP画像（WebP変換）
     dist_hero = DIST_DIR / "hero_photos"
     dist_hero.mkdir(parents=True, exist_ok=True)
+    hero_photos = []
     if HERO_PHOTOS_DIR.exists():
-        shutil.copytree(HERO_PHOTOS_DIR, dist_hero, dirs_exist_ok=True)
-    hero_photos = [f.name for f in HERO_PHOTOS_DIR.iterdir() if f.suffix.lower() in valid_extensions]
+        for f in sorted(HERO_PHOTOS_DIR.iterdir()):
+            if f.suffix.lower() in VALID_EXTENSIONS:
+                webp_name = convert_hero_image(f, dist_hero)
+                hero_photos.append(webp_name)
 
-    # 2. ギャラリー画像（向き補正して書き出し）
+    # 2. ギャラリー画像（表示用 + 16:9サムネイルのWebP生成）
     dist_gallery = DIST_DIR / "gallery_photos"
     dist_gallery.mkdir(parents=True, exist_ok=True)
-    if GALLERY_PHOTOS_DIR.exists():
-        shutil.copytree(GALLERY_PHOTOS_DIR, dist_gallery, dirs_exist_ok=True)
-
     gallery_photos = []
-    for f in sorted(GALLERY_PHOTOS_DIR.iterdir()):
-        if f.suffix.lower() in valid_extensions:
-            target_path = dist_gallery / f.name
-            process_gallery_photo(f, target_path)
-            gallery_photos.append({
-                "filename": f.name,
-                "title": f.stem.replace("-", " ").replace("_", " ")
-            })
+    if GALLERY_PHOTOS_DIR.exists():
+        for f in sorted(GALLERY_PHOTOS_DIR.iterdir()):
+            if f.suffix.lower() in VALID_EXTENSIONS:
+                if "_thumb" in f.name:
+                    continue
+                photo_data = convert_gallery_photo(f, dist_gallery)
+                gallery_photos.append(photo_data)
 
     # 3. その他画像（ロゴなど）コピー
     dist_images = DIST_DIR / "images"
@@ -288,16 +282,16 @@ def build():
     news_list_template = env.get_template("news_list.html")
     news_list_html = news_list_template.render(
         site_title=SITE_TITLE,
-        articles=articles  # 全件を渡す
+        articles=articles
     )
     (NEWS_DIST_DIR / "index.html").write_text(news_list_html, encoding="utf-8")
 
-    # 5-3. トップページ（最新5件に絞る）
+    # 5-3. トップページ（最新5件）
     index_template = env.get_template("index.html")
     index_html = index_template.render(
         **SITE_CONFIG,
         hero_photos=hero_photos,
-        articles=articles[:5]  # 最新5件
+        articles=articles[:5]
     )
     (DIST_DIR / "index.html").write_text(index_html, encoding="utf-8")
 
@@ -312,13 +306,14 @@ def build():
             html = page_template.render(**SITE_CONFIG, page=p)
         (PAGES_DIST_DIR / f"{p['slug']}.html").write_text(html, encoding="utf-8")
 
-    # 6. sitemap.xml の自動生成 ★ここで呼び出す！
+    # 6. sitemap.xml & feed.xml の自動生成
     generate_sitemap(articles)
+    generate_feed(articles) 
 
     # GitHub Pages用：Jekyllの自動処理を無効化する空ファイルを生成
     (DIST_DIR / ".nojekyll").touch()
 
-    print(f"ビルド完了！ ギャラリー写真: {len(gallery_photos)}枚 / お知らせ: {len(articles)}件")
+    print(f"ビルド完了！ ギャラリー写真: {len(gallery_photos)}枚 / ヒーロー写真: {len(hero_photos)}枚 / お知らせ: {len(articles)}件")
 
 
 if __name__ == "__main__":

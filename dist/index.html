@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生活の写真</title>
+
     <!-- ファビコン設定 -->
     <link rel="icon" href="/images/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<!-- <link rel="stylesheet" href="style.css"> -->
 
-    <!-- 修正後（?v= を付与）： -->
-    <link rel="stylesheet" href="style.css?v=10">
+    <!-- CSS（下層ページでも崩れないようルート相対パス化） -->
+    <link rel="stylesheet" href="/style.css?v=10">
+
     <!-- SEO & OGP (SNSシェア用) 設定 -->
     <meta name="description" content="日常の光と影、手仕事と写真記録。生活の写真のアトリエサイト。">
     <link rel="canonical" href="https://seika2graphy.life/">
@@ -28,74 +29,86 @@
     <meta name="twitter:title" content="生活の写真">
     <meta name="twitter:description" content="日常の光と影、手仕事と写真記録。生活の写真のアトリエサイト。">
     <meta name="twitter:image" content="https://seika2graphy.life/images/ogp-default.jpg">
+
+    <!-- RSS / Atom フィード自動検出 -->
+    <link rel="alternate" type="application/atom+xml" title="生活の写真 Feed" href="/feed.xml">
+
+    
 </head>
 <body>
 
+    <!-- 全ページ共通ロゴヘッダー -->
     <header>
         <h1 class="site-logo">
-            <a href="index.html">
-                <img src="images/logo.png" alt="生活の写真">
+            <a href="/">
+                <img src="/images/logo.png" alt="生活の写真">
             </a>
         </h1>
     </header>
 
-    <main>
-        <!-- 16:9のメイン画像枠 -->
-        <div class="hero-wrapper">
-            <div class="hero-container">
-                <img id="hero-image" alt="Featured Photo">
-            </div>
+    <!-- 各ページごとのコンテンツが入るエリア -->
+    
+<main>
+    <!-- 16:9のメイン画像枠 -->
+    <div class="hero-wrapper">
+        <div class="hero-container">
+            <img id="hero-image" alt="Featured Photo">
         </div>
+    </div>
 
-        <!-- ★追加: 画像下のナビゲーションメニュー -->
-        <nav class="top-nav-section">
-            <ul class="top-nav-list">
-                <li><a href="pages/about.html">アトリエについて</a></li>
-                <li><a href="pages/gallery.html">ギャラリー</a></li>
-                <li><a href="https://www.creema.jp/c/seika2graphy" target="_blank" rel="noopener noreferrer">ウェブショップ</a></li>
-                <li><a href="pages/contact.html">お問合せ</a></li>
-            </ul>
-        </nav>
+    <!-- ★画像下のナビゲーションメニュー（元の位置を完全キープ） -->
+    <nav class="top-nav-section">
+        <ul class="top-nav-list">
+            <li><a href="/pages/about.html">アトリエについて</a></li>
+            <li><a href="/pages/gallery.html">ギャラリー</a></li>
+            <li><a href="https://www.creema.jp/c/seika2graphy" target="_blank" rel="noopener noreferrer">ウェブショップ</a></li>
+            <li><a href="/pages/contact.html">お問合せ</a></li>
+        </ul>
+    </nav>
 
-        <!-- お知らせセクション -->
-        
-        <section class="news-section">
-            <h2>お知らせ</h2>
-            <ul class="news-list">
-                
-                <li>
-                    <a href="news/first-post.html">
-                        <time>2026-11-08</time>
-                        <span>リニューアル</span>
-                    </a>
-                </li>
-                
-            </ul>
-            <!-- ★追加: 全件一覧へのリンク -->
-            <div class="more-news-link">
-                <a href="/news/">過去のお知らせ一覧 <span>&rarr;</span></a>
-            </div>
-        </section>
-        
-    </main>
+    <!-- お知らせセクション -->
+    
+    <section class="news-section">
+        <h2>お知らせ</h2>
+        <ul class="news-list">
+            
+            <li>
+                <a href="/news/first-post.html">
+                    <time>2026-11-08</time>
+                    <span>リニューアル</span>
+                </a>
+            </li>
+            
+        </ul>
+        <div class="more-news-link">
+            <a href="/news/">過去のお知らせ一覧 <span>&rarr;</span></a>
+        </div>
+    </section>
+    
+</main>
+
+
+    <!-- 全ページ共通フッター -->
     <footer>
         <p>&copy; 生活の写真</p>
     </footer>
 
-    <!-- 写真をランダム選択する小さなスクリプト -->
-    <script>
-        const heroPhotos = ["0001.jpg", "0002.jpg", "0003.jpg", "0004.jpg", "0005.jpg", "0006.jpg"];
+    
+<!-- 写真をランダム選択する小さなスクリプト -->
+<script>
+    const heroPhotos = ["0001.webp", "0002.webp", "0003.webp", "0004.webp", "0005.webp", "0006.webp"];
 
-        if (heroPhotos && heroPhotos.length > 0) {
-            const randomPhoto = heroPhotos[Math.floor(Math.random() * heroPhotos.length)];
-            const imgElement = document.getElementById('hero-image');
+    if (heroPhotos && heroPhotos.length > 0) {
+        const randomPhoto = heroPhotos[Math.floor(Math.random() * heroPhotos.length)];
+        const imgElement = document.getElementById('hero-image');
 
-            imgElement.src = 'hero_photos/' + randomPhoto;
-            
-            imgElement.onload = () => {
-                imgElement.classList.add('loaded');
-            };
-        }
-    </script>
+        imgElement.src = '/hero_photos/' + randomPhoto;
+        
+        imgElement.onload = () => {
+            imgElement.classList.add('loaded');
+        };
+    }
+</script>
+
 </body>
 </html>

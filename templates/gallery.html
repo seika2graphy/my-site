@@ -1,104 +1,88 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - {{ site_title }}</title>
-    <link rel="stylesheet" href="../style.css">
-</head>
-<body>
+{% extends "base.html" %}
 
-    <header>
-        <h1 class="site-logo">
-            <a href="../index.html">
-                <img src="../images/logo.png" alt="{{ site_title }}">
-            </a>
-        </h1>
+{% block title %}{{ page.title }} - {{ site_title }}{% endblock %}
+
+{% block content %}
+<main class="gallery-page">
+    <header class="page-header">
+        <h1>{{ page.title }}</h1>
     </header>
 
-    <main class="gallery-page">
-        <header class="page-header">
-            <h1>{{ page.title }}</h1>
-        </header>
+    {% if page.body %}
+    <div class="gallery-intro">
+        {{ page.body | safe }}
+    </div>
+    {% endif %}
 
-        {% if page.body %}
-        <div class="gallery-intro">
-            {{ page.body | safe }}
-        </div>
-        {% endif %}
-
-        <!-- 写真グリッド（右クリック・ドラッグ禁止を設定） -->
-        <div class="photo-grid">
-            {% for photo in gallery_photos %}
-            <div class="photo-item">
-                <img 
-                    src="../gallery_photos/{{ photo.filename }}" 
-                    alt="{{ photo.title }}" 
-                    loading="lazy"
-                    class="protect-img gallery-thumb"
-                    oncontextmenu="return false;"
-                    ondragstart="return false;"
-                >
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="article-footer-nav">
-            <a href="../index.html" class="back-link">&larr; ホームへ戻る</a>
-        </div>
-    </main>
-
-    <!-- 拡大表示用モーダル（ライトボックス） -->
-    <div id="lightbox-modal" class="lightbox" onclick="closeLightbox(event)">
-        <button type="button" class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
-        <div class="lightbox-content">
+    <!-- 写真グリッド（サムネイルは16:9のthumb、拡大用URLをdata-displayに保持） -->
+    <div class="photo-grid">
+        {% for photo in gallery_photos %}
+        <div class="photo-item" data-display="/gallery_photos/{{ photo.display }}">
             <img 
-                id="lightbox-img" 
-                src="" 
-                alt="Enlarged Photo"
-                class="protect-img"
+                src="/gallery_photos/{{ photo.thumb }}" 
+                alt="{{ photo.title }}" 
+                loading="lazy"
+                class="protect-img gallery-thumb"
                 oncontextmenu="return false;"
                 ondragstart="return false;"
             >
         </div>
+        {% endfor %}
     </div>
 
-    <footer>
-        <p>&copy; {{ site_title }}</p>
-    </footer>
+    <div class="article-footer-nav">
+        <a href="/" class="back-link">&larr; ホームへ戻る</a>
+    </div>
+</main>
 
-    <!-- ライトボックス制御スクリプト -->
-    <script>
-        const modal = document.getElementById('lightbox-modal');
-        const modalImg = document.getElementById('lightbox-img');
-        const photoItems = document.querySelectorAll('.photo-item'); // 枠全体を対象に
+<!-- 拡大表示用モーダル（ライトボックス） -->
+<div id="lightbox-modal" class="lightbox" onclick="closeLightbox(event)">
+    <button type="button" class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+    <div class="lightbox-content">
+        <img 
+            id="lightbox-img" 
+            src="" 
+            alt="Enlarged Photo"
+            class="protect-img"
+            oncontextmenu="return false;"
+            ondragstart="return false;"
+        >
+    </div>
+</div>
+{% endblock %}
 
-        photoItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const img = item.querySelector('img');
-                if (img) {
-                    modalImg.src = img.src;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
+{% block extra_scripts %}
+<!-- ライトボックス制御スクリプト -->
+<script>
+    const modal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-img');
+    const photoItems = document.querySelectorAll('.photo-item');
+
+    photoItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // data-display にある高解像度表示用WebPをモーダルにセット
+            const displaySrc = item.getAttribute('data-display');
+            if (displaySrc) {
+                modalImg.src = displaySrc;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         });
+    });
 
-        function closeLightbox(e) {
-            // 透明板や画像エリアの内側をクリックした時は閉じず、外側の背景や×ボタンで閉じる
-            if (e.target.closest('.lightbox-content')) return;
+    function closeLightbox(e) {
+        if (e.target.closest('.lightbox-content')) return;
+        modal.classList.remove('active');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
             modal.classList.remove('active');
             modalImg.src = '';
             document.body.style.overflow = '';
         }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                modal.classList.remove('active');
-                modalImg.src = '';
-                document.body.style.overflow = '';
-            }
-        });
-    </script>
-</body>
-</html>
+    });
+</script>
+{% endblock %}
