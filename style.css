@@ -307,12 +307,48 @@ header {
     margin-bottom: 1.6rem;
 }
 
-/* 記事下部の戻るナビゲーション */
 .article-footer-nav {
     margin-top: 4rem;
     padding-top: 2rem;
     border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
     text-align: center;
+}
+
+.article-footer-nav .back-link {
+    font-size: 0.85rem;
+    color: #666;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.article-footer-nav .back-link:hover {
+    color: #111;
+    border-color: #111;
+}
+
+.article-footer-nav .nav-divider {
+    color: #ccc;
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+/* スマホ表示の調整 */
+@media (max-width: 768px) {
+    .article-footer-nav {
+        margin-top: 3rem;
+        gap: 0.8rem;
+    }
+
+    .article-footer-nav .back-link {
+        font-size: 0.78rem;
+    }
 }
 
 .back-link {
