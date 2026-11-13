@@ -936,7 +936,7 @@ article img + p > em {
     }
 }
 
-/* 映像アイテムの下の一言タイトル */
+/* 映像アイテムの下の一言タイトル（中央揃え） */
 .video-caption {
     margin-top: 0.65rem;
     font-size: 0.8rem;
@@ -944,7 +944,7 @@ article img + p > em {
     color: #666;
     letter-spacing: 0.08em;
     line-height: 1.5;
-    text-align: left;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
