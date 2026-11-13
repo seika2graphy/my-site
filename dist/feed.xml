@@ -5,7 +5,7 @@
   <link href="https://seika2graphy.life/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://seika2graphy.life/" rel="alternate" type="text/html"/>
   <id>https://seika2graphy.life/</id>
-  <updated>2026-11-09T22:24:31Z</updated>
+  <updated>2026-11-13T21:53:15Z</updated>
   <author>
     <name>生活の写真</name>
   </author>
@@ -16,6 +16,15 @@
     <published>2026-11-08T09:00:00+09:00</published>
     <updated>2026-11-08T09:00:00+09:00</updated>
     <content type="html"><![CDATA[<p>ホームページをリニューアルしました。あらためて これからもよろしくお願いいたします。</p>]]></content>
+  </entry>
+  <entry>
+    <title>“生活の写真”へ屋号を変更をしました</title>
+    <link href="https://seika2graphy.life/news/2025-04-01-renew.html" rel="alternate" type="text/html"/>
+    <id>https://seika2graphy.life/news/2025-04-01-renew.html</id>
+    <published>2025-04-01T09:00:00+09:00</published>
+    <updated>2025-04-01T09:00:00+09:00</updated>
+    <content type="html"><![CDATA[<p>屋号を“生活の写真”へ変更し 新しく『atelier 生活の写真』として活動して参ります。</p>
+<p>活動内容は変わりませんので 今後ともよろしくお願いいたします。</p>]]></content>
   </entry>
   <entry>
     <title>ハンドメイドインジャパンフェス（HMJ）</title>
@@ -39,5 +48,27 @@
 表面はフロストガラスのように曇っており 光を当てると透けて見えます。</p>
 <p>サイズは縦4cm 横3cm。</p>
 <p>底面は平らになっていますので そのまま飾っていただけます。</p>]]></content>
+  </entry>
+  <entry>
+    <title>作品展『泡に花』</title>
+    <link href="https://seika2graphy.life/news/2021-02-13-awanihana.html" rel="alternate" type="text/html"/>
+    <id>https://seika2graphy.life/news/2021-02-13-awanihana.html</id>
+    <published>2021-02-13T09:00:00+09:00</published>
+    <updated>2021-02-13T09:00:00+09:00</updated>
+    <content type="html"><![CDATA[<p>ホリウチダイ作品展『泡に花』を開催いたします。</p>
+<p>日時：2021年2月13日～14日 13:00-15:00
+場所：原宿デザインフェスタギャラリー WEST 1-B</p>
+<p>今回は完全予約制にて開催いたします。
+※入場無料</p>
+<p>ご来場前に instagram:@seika2graphy よりご予約をお願いいたします。</p>]]></content>
+  </entry>
+  <entry>
+    <title>屋号を取得しました</title>
+    <link href="https://seika2graphy.life/news/2018-04-01-open.html" rel="alternate" type="text/html"/>
+    <id>https://seika2graphy.life/news/2018-04-01-open.html</id>
+    <published>2018-04-01T09:00:00+09:00</published>
+    <updated>2018-04-01T09:00:00+09:00</updated>
+    <content type="html"><![CDATA[<p>“ワヅカナヒカリ”を屋号として 開業いたしました。</p>
+<p>よろしくお願いいたします。</p>]]></content>
   </entry>
 </feed>
