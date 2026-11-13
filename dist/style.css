@@ -935,3 +935,21 @@ article img + p > em {
         padding: 0.6rem 2.2rem;
     }
 }
+
+/* 映像アイテムの下の一言タイトル */
+.video-caption {
+    margin-top: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: #666;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .video-caption {
+        margin-top: 0.5rem;
+        font-size: 0.78rem;
+    }
+}
