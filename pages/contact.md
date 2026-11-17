@@ -6,7 +6,9 @@ image:
 
 <form action="https://formspree.io/f/xeaggkyl" method="POST" class="contact-form">
   <input type="text" name="_gotcha" style="display:none">
-
+  <!-- 送信後の遷移先URLを指定（1行追加） -->
+  <input type="hidden" name="_next" value="https://seika2graphy.life/pages/thanks.html">
+  
   <div class="form-group">
     <label for="name">お名前 <span class="required">*</span></label>
     <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
